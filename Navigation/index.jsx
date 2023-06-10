@@ -3,6 +3,7 @@ import React from 'react'
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import Login from '../Screens/Login';
 import BottomTab from './BottomTab';
+import Register from '../Screens/Admin/Register';
 
 const Stack = createNativeStackNavigator()
 
@@ -11,8 +12,9 @@ const index = () => {
         <Stack.Navigator initialRouteName='Login' screenOptions={{
             headerShown: false
         }}>
-            <Stack.Screen name='Login' component={Login} />
+            <Stack.Screen name='Login' component={Login}  />
             <Stack.Screen name='BottomTab' component={BottomTab} />
+            <Stack.Screen name='Register' component={Register} options={{ headerShown: true }} />
         </Stack.Navigator>
     )
 }
