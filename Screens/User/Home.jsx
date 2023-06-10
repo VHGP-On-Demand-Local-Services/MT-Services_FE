@@ -5,6 +5,7 @@ import { VStack, Input, Button, IconButton, Icon, Text, NativeBaseProvider, Cent
 import { Ionicons, MaterialIcons } from "@expo/vector-icons"
 import { FontAwesome5 } from "@expo/vector-icons"
 import Banner from '../../Components/Banner'
+import ServiceList from './ServiceList'
 
 
 const Home = () => {
@@ -27,11 +28,11 @@ const Home = () => {
         </HStack>
 
         <Banner />
-        
-        <View style={{ padding:20}}>
-          <Heading>Dịch vụ</Heading>
 
-          
+        <View style={{ padding: 20 }}>
+          <Heading>Dịch vụ</Heading>
+          <ServiceList />
+
         </View>
 
       </ScrollView>

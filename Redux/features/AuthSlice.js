@@ -15,9 +15,13 @@ export const registerUser = createAsyncThunk(
   "auth/registerUser",
   async (userData) => {
     try {
+      const token = await AsyncStorage.getItem("token");
       const response = await axios.post(
         `${BASE_URL}/api/v1/auth/register`,
-        userData
+        userData,
+        {
+          token: `Bearer ${token}`
+        }
       );
       return response.data;
     } catch (error) {
