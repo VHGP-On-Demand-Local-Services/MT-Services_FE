@@ -19,7 +19,6 @@ const Login = () => {
         const userData = { phone, password }
         dispatch(loginUser(userData))
     }
-    console.log(user);
     useEffect(() => {
         if (user != null) {
             navigation.replace('BottomTab')
@@ -36,11 +35,7 @@ const Login = () => {
                         }}>
                             Đăng Nhập
                         </Heading>
-                        {/* <Heading mt="1" _dark={{
-                            color: "warmGray.200"
-                        }} color="coolGray.600" fontWeight="medium" size="md">
-                            Sign in to continue!
-                        </Heading> */}
+                        
                         <View>
                             {error && <Text color='red'>{error}</Text>}
                         </View>
@@ -71,21 +66,6 @@ const Login = () => {
                                 </Button>
 
                             </FormControl>
-
-                            {/* <HStack mt="6" justifyContent="center">
-                                <Text fontSize="md" color="coolGray.600" _dark={{
-                                    color: "warmGray.200"
-                                }}>
-                                    Don't have account.{" "}
-                                </Text>
-                                <Link _text={{
-                                    color: "indigo.500",
-                                    fontWeight: "medium",
-                                    fontSize: "md"
-                                }} onPress={() => navigation.navigate('User')}>
-                                    Sign Up
-                                </Link>
-                            </HStack> */}
                         </VStack>
                     </Box>
                 </Center>

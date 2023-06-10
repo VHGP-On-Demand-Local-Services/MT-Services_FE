@@ -38,12 +38,6 @@ const Register = () => {
                         }}>
                             Đăng Kí
                         </Heading>
-                        {/* <Heading mt="1" _dark={{
-                            color: "warmGray.200"
-                        }} color="coolGray.600" fontWeight="medium" size="xs">
-                            Sign up to continue!
-                        </Heading> */}
-
                         <VStack space={3} mt="5">
                             <FormControl>
 
@@ -68,24 +62,10 @@ const Register = () => {
                                 <FormControl.Label>Apartment </FormControl.Label>
                                 <Input size="md" type='text' placeholder='Enter your apartment...' value={apartment} onChangeText={(text) => setApartment(text)} />
 
-                                <Button onPress={handleRegister} mt="2" style={{backgroundColor: '#6fc4f2'}}>
+                                <Button onPress={handleRegister} mt="2" style={{ backgroundColor: '#6fc4f2' }}>
                                     Đăng kí
                                 </Button>
                             </FormControl>
-                            {/* <HStack mt="6" justifyContent="center">
-                                <Text fontSize="md" color="coolGray.600" _dark={{
-                                    color: "warmGray.200"
-                                }}>
-                                    Already have an account.{" "}
-                                </Text>
-                                <Link _text={{
-                                    color: "indigo.500",
-                                    fontWeight: "medium",
-                                    fontSize: "md"
-                                }} onPress={() => navigation.navigate('Booking')}>
-                                    Sign In
-                                </Link>
-                            </HStack> */}
                         </VStack>
                     </Box>
                 </Center>
