@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { View } from 'react-native';
-import {  Box, Text, Heading, VStack, FormControl, Input, Link, Button, HStack, Center, ScrollView, Pressable, Icon } from "native-base";
+import { Box, Text, Heading, VStack, FormControl, Input, Link, Button, HStack, Center, ScrollView, Pressable, Icon } from "native-base";
 import { MaterialIcons } from "@expo/vector-icons";
 import { useNavigation } from '@react-navigation/native'
 import { loginUser } from '../Redux/features/AuthSlice'
@@ -18,9 +18,12 @@ const Login = () => {
     const handleLogin = () => {
         const userData = { phone, password }
         dispatch(loginUser(userData))
+
     }
+
+    // const token = user?.token
     useEffect(() => {
-        if (user != null) {
+        if (user && user != null) {
             navigation.replace('BottomTab')
         }
     }, [user])
@@ -35,7 +38,7 @@ const Login = () => {
                         }}>
                             Đăng Nhập
                         </Heading>
-                        
+
                         <View>
                             {error && <Text color='red'>{error}</Text>}
                         </View>
@@ -61,7 +64,7 @@ const Login = () => {
                                 }} alignSelf="flex-end" mt="1">
                                     Forget Password?
                                 </Link>
-                                <Button style={{backgroundColor: '#6fc4f2'}} onPress={handleLogin} disabled={loading}>
+                                <Button style={{ backgroundColor: '#6fc4f2' }} onPress={handleLogin} disabled={loading}>
                                     Đăng nhập
                                 </Button>
 

@@ -1,34 +1,18 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { useDispatch } from "react-redux";
 
 const initialState = {
   user: null,
   loading: false,
-  error: null
+  error: null,
+  isSignUp: false,
+  // isLogin: false
 };
 
-// const BASE_URL = "http://192.168.2.9:8080";
-const BASE_URL = "https://home-service-vinhomes.onrender.com";
-
-export const registerUser = createAsyncThunk(
-  "auth/registerUser",
-  async (userData) => {
-    try {
-      const token = await AsyncStorage.getItem("token");
-      const response = await axios.post(
-        `${BASE_URL}/api/v1/auth/register`,
-        userData,
-        {
-          token: `Bearer ${token}`
-        }
-      );
-      return response.data;
-    } catch (error) {
-      console.log(error.response.data.message);
-    }
-  }
-);
+// const BASE_URL = "http://192.168.1.17:8080";
+const BASE_URL = "https://home-service-vinhome.onrender.com";
 
 export const loginUser = createAsyncThunk(
   "auth/loginUser",
@@ -40,6 +24,25 @@ export const loginUser = createAsyncThunk(
       );
       const token = response.data.token;
       await AsyncStorage.setItem("token", token);
+      return response.data;
+    } catch (error) {
+      console.log(error.response.data.message);
+    }
+  }
+);
+
+export const registerUser = createAsyncThunk(
+  "auth/registerUser",
+  async (userData) => {
+    try {
+      const token = await AsyncStorage.getItem("token");
+      const response = await axios.post(
+        `${BASE_URL}/api/v1/auth/signup`,
+        userData,
+        {
+          headers: { token: `Bearer ${token}` }
+        }
+      );
       return response.data;
     } catch (error) {
       console.log(error.response.data.message);
@@ -72,6 +75,7 @@ const authSlice = createSlice({
       })
       .addCase(registerUser.fulfilled, (state, action) => {
         state.user = action.payload;
+        state.isSignUp = true;
         state.loading = false;
       })
       .addCase(registerUser.rejected, (state, action) => {
@@ -83,6 +87,7 @@ const authSlice = createSlice({
       })
       .addCase(loginUser.fulfilled, (state, action) => {
         state.user = action.payload;
+        // state.isLogin = true;
         state.loading = false;
       })
       .addCase(loginUser.rejected, (state, action) => {
@@ -95,6 +100,7 @@ const authSlice = createSlice({
       .addCase(logoutUser.fulfilled, (state) => {
         state.user = null;
         state.loading = false;
+        // state.isLogin = false;
       })
       .addCase(logoutUser.rejected, (state, action) => {
         state.error = action.payload;

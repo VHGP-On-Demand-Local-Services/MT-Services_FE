@@ -14,7 +14,7 @@ const UserProfile = () => {
     }
 
     useEffect(() => {
-        if (user == null) {
+        if ( user == null) {
             navigation.replace('Login')
         }
     }, [user])
@@ -22,6 +22,7 @@ const UserProfile = () => {
     return (
         <SafeAreaView>
             <Text>UserProfile</Text>
+            <Text>{user?.name}</Text>
             <Button title='Logout' onPress={handleLogut} disabled={loading} />
         </SafeAreaView>
     )

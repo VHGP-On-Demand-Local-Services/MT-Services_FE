@@ -12,21 +12,19 @@ const Register = () => {
     const [apartment, setApartment] = useState('')
     const [password, setPassword] = useState('')
 
-    const { user, loading } = useSelector(state => state.auth)
+    const { isSignUp, user } = useSelector(state => state.auth)
     const dispatch = useDispatch()
     const navigation = useNavigation()
 
     const handleRegister = () => {
         const userData = { phone, name, apartment, password }
         dispatch(registerUser(userData))
-    }
-
-    useEffect(() => {
-        if (user != null) {
-            alert('Đăng kí thành công!!')
+        if (user && user != null && isSignUp == true) {
+            alert('Đăng kí thành công !!')
             navigation.navigate('Tài khoản')
         }
-    }, [user])
+    }
+
 
     return (
         <>
