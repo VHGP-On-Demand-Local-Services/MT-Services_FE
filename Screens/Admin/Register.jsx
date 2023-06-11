@@ -19,12 +19,11 @@ const Register = () => {
     const handleRegister = () => {
         const userData = { phone, name, apartment, password }
         dispatch(registerUser(userData))
-        if (user && user != null && isSignUp == true) {
+        if (isSignUp == true) {
             alert('Đăng kí thành công !!')
-            navigation.navigate('Tài khoản')
+            navigation.navigate('QL.Tài khoản')
         }
     }
-
 
     return (
         <>

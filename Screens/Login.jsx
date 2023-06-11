@@ -39,14 +39,12 @@ const Login = () => {
                             Đăng Nhập
                         </Heading>
 
-                        <View>
-                            {error && <Text color='red'>{error}</Text>}
-                        </View>
+
                         <VStack space={3} mt="5">
                             <FormControl>
                                 <FormControl.Label>Phone</FormControl.Label>
-                                <Input size="md" placeholder="Enter your phone..." type="number" value={phone} onChangeText={(text) => setPhone(text)} />
-                                <FormControl.Label>Password</FormControl.Label>
+                                <Input size="md" placeholder="Enter your phone..." type="text" value={phone} onChangeText={(text) => setPhone(text)} />
+                                <FormControl.Label mt="5">Password</FormControl.Label>
                                 <Input
                                     size="md"
                                     type={showPassword ? 'text' : 'password'}
@@ -61,9 +59,12 @@ const Login = () => {
                                     fontSize: "sm",
                                     fontWeight: "500",
                                     color: "indigo.500"
-                                }} alignSelf="flex-end" mt="1">
+                                }} alignSelf="flex-end" mt="3">
                                     Forget Password?
                                 </Link>
+                                <View style={{ paddingTop: 20, paddingBottom: 10 }}>
+                                    {error && <Text style={{ color: '#f7232d' }}>{error}</Text>}
+                                </View>
                                 <Button style={{ backgroundColor: '#6fc4f2' }} onPress={handleLogin} disabled={loading}>
                                     Đăng nhập
                                 </Button>
