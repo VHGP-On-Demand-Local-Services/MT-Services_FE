@@ -4,6 +4,7 @@ import { MaterialIcons } from "@expo/vector-icons";
 import { useNavigation } from '@react-navigation/native'
 import { useDispatch, useSelector } from 'react-redux';
 import { registerUser } from '../../Redux/features/AuthSlice';
+import { getAllUsers } from '../../Redux/features/UserSlice';
 
 const Register = () => {
     const [showPassword, setShowPassword] = useState(false)
@@ -18,11 +19,17 @@ const Register = () => {
 
     const handleRegister = () => {
         const userData = { phone, name, apartment, password }
-        dispatch(registerUser(userData))
-        if (isSignUp == true) {
+        dispatch(registerUser(userData)).then(() => {
             alert('Đăng kí thành công !!')
+            dispatch(getAllUsers({ page: 1, limit: 5 }))
             navigation.navigate('QL.Tài khoản')
-        }
+        }).catch(e => {
+            console.log('Error: ', e);
+        })
+        // if (isSignUp == true) {
+        //     alert('Đăng kí thành công !!')
+        //     navigation.navigate('QL.Tài khoản')
+        // }
     }
 
     return (
