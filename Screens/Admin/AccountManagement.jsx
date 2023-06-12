@@ -18,10 +18,10 @@ const AccountManagement = () => {
     const dispatch = useDispatch()
 
     const [isModalVisible, setIsMoadlVisible] = useState(false)
-    const [selectedProductId, setSelectedProductId] = useState('')
+    const [selectedUserId, setSelectedUserId] = useState('')
 
     const toggleModal = (id) => {
-        setSelectedProductId(id)
+        setSelectedUserId(id)
         setIsMoadlVisible(!isModalVisible)
     }
 
@@ -52,7 +52,7 @@ const AccountManagement = () => {
                     text: 'Xoá',
                     style: 'destructive',
                     onPress: () => {
-                        dispatch(deleteUserById({ id: selectedProductId }))
+                        dispatch(deleteUserById({ id: selectedUserId }))
                         setIsMoadlVisible(false)
                         dispatch(getAllUsers({ page: page, limit: limit }))
                     }
@@ -62,7 +62,7 @@ const AccountManagement = () => {
     }
 
     const handleEditUser = () => {
-        navigation.navigate('Edit User', { userId: selectedProductId })
+        navigation.navigate('Edit User', { userId: selectedUserId })
         setIsMoadlVisible(false)
     }
 
