@@ -18,10 +18,10 @@ const AccountManagement = () => {
     const dispatch = useDispatch()
 
     const [isModalVisible, setIsMoadlVisible] = useState(false)
-    const [selectedProductId, setSelectedProductId] = useState('')
+    const [selectedAccountId, setSelectedAccountId] = useState('')
 
     const toggleModal = (id) => {
-        setSelectedProductId(id)
+        setSelectedAccountId(id)
         setIsMoadlVisible(!isModalVisible)
     }
 
@@ -52,7 +52,7 @@ const AccountManagement = () => {
                     text: 'Xoá',
                     style: 'destructive',
                     onPress: () => {
-                        dispatch(deleteUserById({ id: selectedProductId }))
+                        dispatch(deleteUserById({ id: selectedAccountId }))
                         setIsMoadlVisible(false)
                         dispatch(getAllUsers({ page: page, limit: limit }))
                     }
@@ -62,7 +62,7 @@ const AccountManagement = () => {
     }
 
     const handleEditUser = () => {
-        navigation.navigate('Edit User', { userId: selectedProductId })
+        navigation.navigate('Edit User', { userId: selectedAccountId })
         setIsMoadlVisible(false)
     }
 
@@ -70,7 +70,7 @@ const AccountManagement = () => {
         return (
             <View key={item._id} style={{ flex: 1, paddingTop: 2 }} >
                 <TouchableOpacity
-                    style={styles.productItem}
+                    style={styles.userItem}
                     onPress={() => toggleModal(item._id)}
                     onLongPress={() => toggleModal(item._id)}
                     key={item._id}
@@ -142,7 +142,7 @@ const styles = StyleSheet.create({
         fontSize: 30,
         alignItems: 'center',
     },
-    productItem: {
+    userItem: {
         flexDirection: "row",
         alignItems: "center",
         padding: 10,
