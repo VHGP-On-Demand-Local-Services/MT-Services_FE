@@ -21,10 +21,11 @@ export const getAllService = createAsyncThunk(
         }
     }
 )
+
 const initialState = {
     services: {},
     loading: false,
-    error: false
+    error: false,
 };
 
 const serviceSlice = createSlice({
@@ -35,16 +36,18 @@ const serviceSlice = createSlice({
     extraReducers: (builder) => {
         builder
             .addCase(getAllService.pending, (state) => {
-                state.loading = true
+                state.loading = true;
             })
             .addCase(getAllService.fulfilled, (state, action) => {
                 state.services = action.payload;
-                state.loading = false
+                state.loading = false;
             })
             .addCase(getAllService.rejected, (state, action) => {
                 state.error = action.payload;
-                state.loading = false
-            })
-    }
-})
+                state.loading = false;
+            });
+    },
+});
+
+
 export default serviceSlice.reducer;
