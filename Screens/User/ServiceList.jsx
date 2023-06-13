@@ -1,54 +1,41 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { View, Text } from 'react-native'
-import { Stack, Center, Box } from "native-base";
+import { Stack, Center, Box, ScrollView } from "native-base";
+import { MaterialIcons } from '@expo/vector-icons';
 
+import { useDispatch, useSelector } from 'react-redux';
+import { getAllService } from '../../Redux/features/ServiceSlice';
 
-const datas = [{
-  id: 1,
-  iconName: 'mot',
-  name: 'Mot'
-}, {
-  id: 2,
-  iconName: 'hai',
-  name: 'Hai'
-}, {
-  id: 3,
-  iconName: 'ba',
-  name: 'Ba'
-},
-{
-  id: 4,
-  iconName: 'bon',
-  name: 'Bon'
-},
-{
-  id: 5,
-  iconName: 'nam',
-  name: 'Nam'
-},
-]
 
 const ServiceList = () => {
+  const dispatch = useDispatch()
+  const { services } = useSelector(state => state.service.services)
+
+  useEffect(() => {
+    dispatch(getAllService({ page: 1, limit: 6 }))
+  }, [])
 
   return (
     <View>
-      <Text>ServiceList</Text>
-      <View style={{ margin: 20, flexDirection: 'row', flexWrap: 'wrap', }}>
-        {datas.map((data) => (
-          <Box style={{
-            width: '33%', height: 100,
-            backgroundColor: 'red',
-            marginBottom: 10,
-            alignContent: 'center',
-            alignItems: 'center'
-            // marginRight: 2
-          }} key={data.id} shadow={2}>
-            <Text>{data.name}</Text>
-          </Box>
-        ))}
-
-
-      </View>
+      {/* <Text>ServiceList</Text> */}
+      <ScrollView horizontal>
+        <View style={{ margin: 20, flexDirection: 'row', flexWrap: 'wrap', }}>
+          {services && services.map((service) => (
+            <Box style={{
+              width: '33%', height: 100,
+              marginBottom: 10,
+              alignContent: 'center',
+              alignItems: 'center',
+              marginTop: 5,
+            }} key={service._id} >
+              <View style={{ borderRadius: 50, backgroundColor: '#e1e9f7', padding: 10 }}>
+                <MaterialIcons name={service.icon_name} color='#6fc4f2' size={46} />
+              </View>
+              <Text style={{ fontWeight: '600', fontSize: 15, paddingTop: 6, marginBottom: 10 }}>{service.name}</Text>
+            </Box>
+          ))}
+        </View>
+      </ScrollView>
     </View>
   )
 }

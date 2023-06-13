@@ -6,6 +6,7 @@ import { Ionicons, MaterialIcons } from "@expo/vector-icons"
 import { FontAwesome5 } from "@expo/vector-icons"
 import Banner from '../../Components/Banner'
 import ServiceList from './ServiceList'
+import SaleBanner from '../../Components/SaleBanner'
 
 
 const Home = () => {
@@ -32,9 +33,9 @@ const Home = () => {
         <View style={{ padding: 20 }}>
           <Heading>Dịch vụ</Heading>
           <ServiceList />
-
+          <Heading>Ưu đãi</Heading>
         </View>
-
+        <SaleBanner />
       </ScrollView>
     </SafeAreaView >
 

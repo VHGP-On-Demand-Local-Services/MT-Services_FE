@@ -24,7 +24,7 @@ const UserProfile = () => {
 
     return (
         <SafeAreaView style={{ backgroundColor: '#fff', flex: 1 }}>
-            <View style={{ flexDirection: 'row', alignContent: 'space-between', alignItems: 'center', backgroundColor: "#fae2aa", padding: 30, borderBottomLeftRadius: 15, borderBottomRightRadius: 15, shadowRadius: 200 }}>
+            <View style={{ flexDirection: 'row', alignContent: 'space-between', alignItems: 'center', backgroundColor: "#6fc4f2", padding: 30, borderBottomLeftRadius: 15, borderBottomRightRadius: 15, shadowRadius: 200 }}>
                 <Avatar bg="green.500" size='lg' source={{
                     uri: "https://i.pinimg.com/originals/dd/ff/4f/ddff4f09ae9f72cd973e24ea93a358f3.jpg"
                 }}>
