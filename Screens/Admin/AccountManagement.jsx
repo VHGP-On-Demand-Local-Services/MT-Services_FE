@@ -60,7 +60,7 @@ const AccountManagement = () => {
     }
 
     const handleEditUser = () => {
-        navigation.navigate('Edit User', { userId: selectedUserId })
+        navigation.navigate('Chỉnh sửa thông tin', { userId: selectedUserId })
         setIsMoadlVisible(false)
     }
 
@@ -109,8 +109,8 @@ const AccountManagement = () => {
                 <View style={{ flexDirection: 'row', justifyContent: 'flex-end', marginVertical: 10 }}>
                     {(page > 1) ?
                         <Button title='Trước' onPress={navigateToPreviousPage} />
-                        : (users.users.length > limit &&
-                            <Button title='Sau' onPress={navigateToNextPage} />)
+                        :
+                        <Button title='Sau' onPress={navigateToNextPage} />
                     }
                 </View>
 
