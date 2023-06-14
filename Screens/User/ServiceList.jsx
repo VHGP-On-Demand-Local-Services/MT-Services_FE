@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react'
-import { View, Text, Pressable } from 'react-native'
+import { View, Text, TouchableOpacity } from 'react-native'
 import { Stack, Center, Box, ScrollView } from "native-base";
 import { MaterialIcons } from '@expo/vector-icons';
 
@@ -14,29 +14,29 @@ const ServiceList = () => {
   const { services } = useSelector(state => state.service.services)
 
   useEffect(() => {
-    dispatch(getAllService({ page: 1, limit: 6 }))
+    dispatch(getAllService({ page: 1, limit: 9 }))
   }, [])
 
   return (
     <View>
       {/* <Text>ServiceList</Text> */}
-      <ScrollView horizontal>
-        <View style={{ margin: 20, flexDirection: 'row', flexWrap: 'wrap', }}>
-          {services && services.map((service) => (
-            <Box onPress={() => { navigation.navigate('Đặt lịch') }} style={{
-              width: '33%', height: 100,
-              marginBottom: 10,
-              alignContent: 'center',
-              alignItems: 'center',
-              marginTop: 5,
-            }} key={service._id} >
-              <View style={{ borderRadius: 50, backgroundColor: '#e1e9f7', padding: 10 }}>
-                <MaterialIcons name={service.icon_name} color='#6fc4f2' size={46} />
-              </View>
-              <Text style={{ fontWeight: '600', fontSize: 15, paddingTop: 6, marginBottom: 10 }}>{service.name}</Text>
-            </Box>
-          ))}
-        </View>
+      <ScrollView>
+      <View style={{ margin: 20, flexDirection: 'row', flexWrap: 'wrap', }}>
+        {services && services.map((service) => (
+          <TouchableOpacity style={{
+            width: '33%', height: 100,
+            marginBottom: 10,
+            alignContent: 'center',
+            alignItems: 'center',
+            marginTop: 5,
+          }} key={service._id} onPress={() => { navigation.navigate('Đặt lịch') }}>
+            <View style={{ borderRadius: 50, backgroundColor: '#e1e9f7', padding: 10 }}>
+              <MaterialIcons name={service.icon_name} color='#6fc4f2' size={46} />
+            </View>
+            <Text style={{ fontWeight: '600', fontSize: 15, paddingTop: 6, marginBottom: 10 }}>{service.name}</Text>
+          </TouchableOpacity>
+        ))}
+      </View>
       </ScrollView>
     </View>
   )
