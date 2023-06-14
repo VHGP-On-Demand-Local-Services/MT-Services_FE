@@ -8,6 +8,7 @@ import EditUser from '../Screens/Admin/EditUser';
 import InfoUser from '../Screens/User/InfoUser';
 import Booking from '../Screens/User/Booking';
 import ChangePass from '../Screens/User/ChangePass';
+import CreateService from '../Screens/Admin/CreateService';
 
 const Stack = createNativeStackNavigator()
 
@@ -23,6 +24,7 @@ const index = () => {
             <Stack.Screen name='Thông tin cá nhân' component={InfoUser} options={{ headerShown: true }} />
             <Stack.Screen name='Đặt lịch' component={Booking} options={{ headerShown: true }} />
             <Stack.Screen name='Đổi mật khẩu' component={ChangePass} options={{ headerShown: true }} />
+            <Stack.Screen name='Thêm Dịch Vụ' component={CreateService} options={{ headerShown: true }} />
         </Stack.Navigator>
     )
 }

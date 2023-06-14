@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { FlatList, StyleSheet, TouchableOpacity, View, Text } from 'react-native';
-import { MaterialIcons } from '@expo/vector-icons';
+import { Ionicons, MaterialIcons } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/native';
 import { useDispatch, useSelector } from 'react-redux';
 import { getAllService } from '../../Redux/features/ServiceSlice';
@@ -76,6 +76,11 @@ const ServiceManagement = () => {
         }
 
       </View>
+      <View style={styles.container_add}>
+        <TouchableOpacity style={styles.button} onPress={() => navigation.navigate('Thêm Dịch Vụ')} >
+          <Ionicons name='add' style={styles.buttonText} />
+        </TouchableOpacity>
+      </View>
     </View>
   );
 };
@@ -87,6 +92,11 @@ const styles = StyleSheet.create({
     paddingTop: 50,
     paddingHorizontal: 20,
     backgroundColor: '#fff',
+  },
+  container_add: {
+    position: 'absolute',
+    bottom: 50,
+    right: 30,
   },
   title: {
     textAlign: 'center',
@@ -130,5 +140,18 @@ const styles = StyleSheet.create({
     color: '#fff',
     fontSize: 16,
     fontWeight: 'bold',
-  }
+  },
+  button: {
+    backgroundColor: '#6fc4f2',
+    width: 50,
+    height: 50,
+    borderRadius: 25,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  buttonText: {
+    color: 'white',
+    fontSize: 30,
+    alignItems: 'center',
+  },
 });
