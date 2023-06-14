@@ -20,7 +20,27 @@ export const getAllService = createAsyncThunk(
             return rejectWithValue(err.response.data.message);
         }
     }
+);
+
+export const getServiceById = createAsyncThunk(
+    "services/getServiceById",
+    async({ id }, { rejectWithValue }) => {
+        try {
+            const token = await AsyncStorage.getItem("token");
+            const response = await axios.get(
+                `${BASE_URL}/api/v1/services/${id}`, {
+                    headers: { token: `Bearer ${token}` }
+                }
+            );
+            return response.data
+        } catch (err) {
+            console.log(err.response.data.message);
+            return rejectWithValue(err.response.data.message);
+        }
+    }
 )
+
+
 
 const initialState = {
     services: {},
@@ -45,7 +65,18 @@ const serviceSlice = createSlice({
             .addCase(getAllService.rejected, (state, action) => {
                 state.error = action.payload;
                 state.loading = false;
-            });
+            })
+            .addCase(getServiceById.pending, (state) => {
+                state.loading = true
+            })
+            .addCase(getServiceById.fulfilled, (state, action) => {
+                state.loading = false;
+                state.services = action.payload;
+            })
+            .addCase(getServiceById.rejected, (state, action) => {
+                state.error = action.payload;
+                state.loading = false;
+            })
     },
 });
 
