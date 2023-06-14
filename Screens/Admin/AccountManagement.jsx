@@ -11,7 +11,7 @@ import Modal from 'react-native-modal'
 
 const AccountManagement = () => {
     const [page, setPage] = useState(1)
-    const [limit, setLimit] = useState(10)
+    const [limit, setLimit] = useState(6)
 
     const navigation = useNavigation()
     const { loading, error, users } = useSelector(state => state.user)
@@ -27,16 +27,14 @@ const AccountManagement = () => {
 
     useEffect(() => {
         dispatch(getAllUsers({ page: page, limit: limit }))
-    }, [dispatch, page, limit])
+    }, [dispatch, page])
 
     const navigateToNextPage = () => {
         setPage(page + 1)
     }
 
     const navigateToPreviousPage = () => {
-        if (page) {
-            setPage(page - 1)
-        }
+        setPage(page - 1)
     }
 
     const handleDeleteUser = () => {
@@ -108,9 +106,12 @@ const AccountManagement = () => {
             </Modal >
 
             <View style={{ flex: 1 }}>
-                <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginVertical: 10 }}>
-                    <Button title='Trước' onPress={navigateToPreviousPage} disabled={page == 1} />
-                    <Button title='Sau' onPress={navigateToNextPage} />
+                <View style={{ flexDirection: 'row', justifyContent: 'flex-end', marginVertical: 10 }}>
+                    {(page > 1) ?
+                        <Button title='Trước' onPress={navigateToPreviousPage} />
+                        : (users.users.length > limit &&
+                            <Button title='Sau' onPress={navigateToNextPage} />)
+                    }
                 </View>
 
                 <View style={styles.container}>
