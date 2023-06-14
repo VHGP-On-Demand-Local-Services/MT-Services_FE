@@ -6,6 +6,7 @@ import BottomTab from './BottomTab';
 import Register from '../Screens/Admin/Register';
 import EditUser from '../Screens/Admin/EditUser';
 import InfoUser from '../Screens/User/InfoUser';
+import UserChangePassword from '../Screens/User/UserChangePassword';
 
 const Stack = createNativeStackNavigator()
 
@@ -19,6 +20,7 @@ const index = () => {
             <Stack.Screen name='Register' component={Register} options={{ headerShown: true }} />
             <Stack.Screen name='Edit User' component={EditUser} options={{ headerShown: true }} />
             <Stack.Screen name='Info User' component={InfoUser} options={{ headerShown: true }} />
+            <Stack.Screen name='User Change Password' component={UserChangePassword} options={{headerShown:true}} />
         </Stack.Navigator>
     )
 }
