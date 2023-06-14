@@ -32,12 +32,14 @@ const UserProfile = () => {
                 </Avatar>
                 <View style={{ paddingLeft: 20 }}>
                     <Text style={{ fontWeight: '600', fontSize: 26, paddingBottom: 5 }}>{user?.name} </Text>
-                    <Text style={{ fontSize: 14, color: '#3b3a38' }}>{user?.apartment}</Text>
+                    <Pressable onPress={() => { navigation.navigate('Đổi mật khẩu') }}>
+                        <Text style={{ fontWeight: '600',fontSize: 14, color: '#3b3a38' }}>Đổi mật khẩu</Text>
+                    </Pressable>
                 </View>
             </View>
-            <Pressable style={styles.btn} onPress={() => { navigation.navigate('Info User') }} >
+            <Pressable style={styles.btn} onPress={() => { navigation.navigate('Thông tin cá nhân') }} >
                 <Ionicons name='person-outline' size={30} paddingLeft={15} paddingRight={20} />
-                <Button color='#080A12' title='Thông tin cá nhân' onPress={() => { navigation.navigate('Info User') }} />
+                <Button color='#080A12' title='Thông tin cá nhân' onPress={() => { navigation.navigate('Thông tin cá nhân') }} />
                 <MaterialIcons name="navigate-next" size={30} color="black" paddingLeft={120} />
             </Pressable>
             <Pressable style={styles.btn} onPress={() => { }} >
