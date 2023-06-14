@@ -44,7 +44,7 @@ const ServiceManagement = () => {
         <MaterialIcons name={item.icon_name} color='#333' size={46} />
         <View style={styles.serviceDetails}>
           <Text style={styles.serviceName}>{item.name}</Text>
-          <Text style={styles.servicePrice}>$ {item.expected_price}</Text>
+          <Text style={styles.servicePrice}>{item.expected_price} VND</Text>
         </View>
       </TouchableOpacity>
     );
