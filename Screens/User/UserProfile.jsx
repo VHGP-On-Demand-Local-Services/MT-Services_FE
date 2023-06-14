@@ -32,7 +32,9 @@ const UserProfile = () => {
                 </Avatar>
                 <View style={{ paddingLeft: 20 }}>
                     <Text style={{ fontWeight: '600', fontSize: 26, paddingBottom: 5 }}>{user?.name} </Text>
-                    <Text style={{ fontSize: 14, color: '#3b3a38' }}>{user?.apartment}</Text>
+                    <Pressable onPress={() => { navigation.navigate('Đổi mật khẩu') }}>
+                        <Text style={{ fontWeight: '600',fontSize: 14, color: '#3b3a38' }}>Đổi mật khẩu</Text>
+                    </Pressable>
                 </View>
             </View>
             <Pressable style={styles.btn} onPress={() => { navigation.navigate('Info User') }} >
