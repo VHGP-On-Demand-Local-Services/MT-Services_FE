@@ -30,32 +30,29 @@ const UserProfile = () => {
                 }}>
                     🛠️
                 </Avatar>
-                {/* <View style={{ paddingLeft: 20 }}>
+                <View style={{ paddingLeft: 20 }}>
                     <Text style={{ fontWeight: '600', fontSize: 26, paddingBottom: 5 }}>{user?.name} </Text>
-                    <Pressable onPress={() => { navigation.navigate('Đổi mật khẩu') }}>
+                    {/* <Pressable onPress={() => { navigation.navigate('Đổi mật khẩu') }}>
                         <Text style={{ fontWeight: '600',fontSize: 14, color: '#3b3a38' }}>Đổi mật khẩu</Text>
-                    </Pressable>
-                </View> */}
+                    </Pressable> */}
+                </View>
             </View>
             <Pressable style={styles.btn} onPress={() => { navigation.navigate('Thông tin cá nhân') }} >
                 <Ionicons name='person-outline' size={30} paddingLeft={15} paddingRight={20} />
                 <Button color='#080A12' title='Thông tin cá nhân' onPress={() => { navigation.navigate('Thông tin cá nhân') }} />
-                <MaterialIcons name="navigate-next" size={30} color="black" paddingLeft={120} />
             </Pressable>
             <Pressable style={styles.btn} onPress={() => { }} >
                 <Ionicons name='settings-outline' size={30} paddingLeft={15} paddingRight={20} />
                 <Button color='#080A12' title='Cài đặt tài khoản' />
-                <MaterialIcons name="navigate-next" size={30} color="black" paddingLeft={129} />
             </Pressable>
             <Pressable style={styles.btn} onPress={() => { }}>
                 <Ionicons name='help-circle-outline' size={30} paddingLeft={15} paddingRight={20} />
                 <Button color='#080A12' title='Trợ giúp' />
-                <MaterialIcons name="navigate-next" size={30} color="black" paddingLeft={198} />
             </Pressable>
-            <Pressable style={styles.btn} onPress={() => { navigation.navigate('User Change Password') }}>
+            <Pressable style={styles.btn} onPress={() => { navigation.navigate('Đổi mật khẩu') }}>
                 <Ionicons name='key-outline' size={30} paddingLeft={15} paddingRight={20} />
-                <Button color='#080A12' title='Bảo mật' onPress={() => { navigation.navigate('User Change Password') }} />
-                <MaterialIcons name="navigate-next" size={30} color="black" paddingLeft={198} />
+                <Button color='#080A12' title='Đổi mật khẩu' onPress={() => { navigation.navigate('Đổi mật khẩu') }} />
+
             </Pressable>
             <Pressable style={styles.btn} onPress={handleLogut}>
                 <Ionicons name='log-out-outline' size={30} paddingLeft={15} paddingRight={20} />

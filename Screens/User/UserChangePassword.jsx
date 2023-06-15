@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
-import { VStack, Input, Button, FormControl, Alert, Pressable, Icon } from 'native-base';
+import { View } from 'react-native';
+import { VStack, Input, Button, FormControl, Alert, Pressable, Icon, Text } from 'native-base';
 import { useDispatch, useSelector } from 'react-redux';
 import { changePassword, selectChangePasswordStatus } from '../../Redux/features/UserSlice';
 import { MaterialIcons } from "@expo/vector-icons";
@@ -16,7 +17,7 @@ const UserChangePassword = () => {
 
     const dispatch = useDispatch();
     const changePasswordStatus = useSelector(selectChangePasswordStatus);
-    
+
     const { user } = useSelector(state => state.auth)
 
     const handleSubmit = () => {
@@ -31,30 +32,29 @@ const UserChangePassword = () => {
         setConfirmPassword('');
     };
 
-    if(changePasswordStatus === 'success'){
+    if (changePasswordStatus === 'success') {
         setTimeout(() => {
             dispatch(logoutUser());
-          }, 1000);
+        }, 1000);
     }
 
     return (
-        
+
         <VStack space={4} maxWidth="400px" marginX="auto">
             {changePasswordStatus === 'success' && (
                 <Alert status="success">
-                    Password changed successfully.
+                    Thay đổi mật khẩu thành công.
                 </Alert>
-                
             )}
             {changePasswordStatus === 'error' && (
                 <Alert status="error">
-                    Failed to change password.
+                    Thay đổi mật khẩu thất bại.
                 </Alert>
             )}
 
-            <FormControl isRequired style={{width:200}}>
-                <FormControl.Label>Current Password</FormControl.Label>
-                <Input 
+            <FormControl isRequired style={{ width: 200 }}>
+                <FormControl.Label>Mật khẩu hiện tại</FormControl.Label>
+                <Input
                     type={showOldPassword ? 'text' : 'password'}
                     InputRightElement={
                         <Pressable onPress={() => setShowOldPassword(!showOldPassword)}>
@@ -67,14 +67,14 @@ const UserChangePassword = () => {
                             />
                         </Pressable>
                     }
-                    placeholder="Enter your current password..."
+                    placeholder="Điền lại mật khẩu hiện tại..."
                     value={oldPassword}
                     onChangeText={(text) => setOldPassword(text)}
                 />
             </FormControl>
 
-            <FormControl isRequired style={{width:200}}>
-                <FormControl.Label>New Password</FormControl.Label>
+            <FormControl isRequired style={{ width: 200 }}>
+                <FormControl.Label>Mật khẩu mới</FormControl.Label>
                 <Input
                     type={showNewPassword ? 'text' : 'password'}
                     InputRightElement={
@@ -88,14 +88,14 @@ const UserChangePassword = () => {
                             />
                         </Pressable>
                     }
-                    placeholder="Enter your new password..."
+                    placeholder="Mật khẩu mới..."
                     value={newPassword}
                     onChangeText={(text) => setNewPassword(text)}
                 />
             </FormControl>
 
-            <FormControl isRequired style={{width:200}}>
-                <FormControl.Label>Confirm Password</FormControl.Label>
+            <FormControl isRequired style={{ width: 200 }}>
+                <FormControl.Label>Xác nhận lại mật khẩu</FormControl.Label>
                 <Input
                     type={showConfirmPassword ? 'text' : 'password'}
                     InputRightElement={
@@ -109,13 +109,12 @@ const UserChangePassword = () => {
                             />
                         </Pressable>
                     }
-                    placeholder="Confirm your new password..."
+                    placeholder="Xác nhập mật khẩu..."
                     value={confirmPassword}
                     onChangeText={(text) => setConfirmPassword(text)}
                 />
             </FormControl>
-
-            <Button onPress={handleSubmit}>Change Password</Button>
+            <Button onPress={handleSubmit}>Xác nhận</Button>
         </VStack>
     );
 };
