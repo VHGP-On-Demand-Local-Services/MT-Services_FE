@@ -4,7 +4,6 @@ import { useNavigation } from '@react-navigation/native';
 import { Button, FormControl, Input } from 'native-base';
 import { useSelector, useDispatch } from 'react-redux';
 import { createService, getAllService } from '../../Redux/features/ServiceSlice';
-import useFormatCurrency from '../../hooks/useFormatCurrency';
 
 const CreateService = () => {
     const dispatch = useDispatch();
@@ -12,24 +11,28 @@ const CreateService = () => {
     const [icon_name, setIconName] = useState('');
     const [name, setName] = useState('');
     const [expected_price, setExpectedPrice] = useState('');
-    const { services } = useSelector(state => state.service);
+    const { services, error } = useSelector(state => state.service);
 
     const handleComplete = () => {
         const serviceData = { icon_name, name, expected_price };
         try {
             dispatch(createService(serviceData));
-            alert('Thêm dịch vụ thành công!');
-            dispatch(getAllService({ page: 1, limit: 6 }));
-            navigation.navigate('QL.Dịch vụ');
+            if (error === false) {
+                alert('Thêm dịch vụ thành công!');
+                dispatch(getAllService({ page: 1, limit: 6 }));
+                navigation.navigate('QL.Dịch vụ');
+            } else {
+                alert('Thêm dịch vụ thất bại!');
+            }
         } catch (error) {
             console.log('Error', error);
-            alert('Thêm dịch vụ thất bại!');
         }
     };
 
     return (
         <View style={styles.container}>
             <Text style={styles.heading}>Thêm Dịch Vụ</Text>
+            {error && <Text style={styles.error}>{error}</Text>}
             <FormControl style={styles.formControl}>
                 <View style={styles.inputGroup}>
                     <FormControl.Label style={styles.label}>Icon Dịch Vụ:</FormControl.Label>
@@ -94,6 +97,12 @@ const styles = StyleSheet.create({
         marginTop: 24,
         borderRadius: 8,
         justifyContent: 'center',
+    },
+    error: {
+        color: 'red',
+        fontSize: 16,
+        marginTop: 8,
+        textAlign: 'center',
     },
 });
 
