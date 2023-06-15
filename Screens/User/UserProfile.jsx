@@ -52,9 +52,9 @@ const UserProfile = () => {
                 <Button color='#080A12' title='Trợ giúp' />
                 <MaterialIcons name="navigate-next" size={30} color="black" paddingLeft={198} />
             </Pressable>
-            <Pressable style={styles.btn} onPress={() => { }}>
+            <Pressable style={styles.btn} onPress={() => { navigation.navigate('User Change Password')}}>
                 <Ionicons name='key-outline' size={30} paddingLeft={15} paddingRight={20} />
-                <Button color='#080A12' title='Bảo mật' />
+                <Button color='#080A12' title='Bảo mật' onPress={() => { navigation.navigate('User Change Password')}} />
                 <MaterialIcons name="navigate-next" size={30} color="black" paddingLeft={198} />
             </Pressable>
             <Pressable style={styles.btn} onPress={handleLogut}>

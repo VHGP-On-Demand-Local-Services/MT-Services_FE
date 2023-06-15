@@ -17,12 +17,12 @@ const Home = () => {
           <VStack w="90%">
             <Input
               placeholder="Tìm kiếm" width="100%"
-              borderRadius="4" py="3" px="1" fontSize="15"
+              borderRadius={4} py="3" px="1" fontSize="15"
               InputLeftElement={<Icon m="2" ml="3" size="6" color="gray.400" as={<MaterialIcons name="search" />} />}
             />
           </VStack>
           <VStack justifyContent='center'>
-            <Pressable style={{ borderRadius: '40px' }} >
+            <Pressable style={{ borderRadius: 40 }} >
               <Ionicons name='notifications-outline' size={30} />
             </Pressable>
           </VStack>
