@@ -1,4 +1,4 @@
-import { SafeAreaView, View, Text, Button, FlatList, TouchableOpacity, StyleSheet, Alert } from 'react-native'
+import { SafeAreaView, View, Text, Button, FlatList, TouchableOpacity, ActivityIndicator, StyleSheet, Alert } from 'react-native'
 import React, { useEffect, useState } from 'react'
 import { useNavigation } from '@react-navigation/native'
 import { useDispatch, useSelector } from 'react-redux'
@@ -11,10 +11,10 @@ import Modal from 'react-native-modal'
 
 const AccountManagement = () => {
     const [page, setPage] = useState(1)
-    const [limit, setLimit] = useState(6)
+    const [limit, setLimit] = useState(3)
 
     const navigation = useNavigation()
-    const { loading, error, users } = useSelector(state => state.user)
+    const { loading, error, users } = useSelector(state => state.user.users)
     const dispatch = useDispatch()
 
     const [isModalVisible, setIsMoadlVisible] = useState(false)
@@ -84,12 +84,44 @@ const AccountManagement = () => {
     return (
         <View style={{ flex: 1, paddingTop: 50 }}>
             <Heading style={{ textAlign: 'center', paddingBottom: 20 }}>Danh sách User</Heading>
-            <FlatList
-                data={users.users}
-                renderItem={renderItem}
-                keyExtractor={item => item._id}
-                styles={styles.flatList}
-            />
+            {loading ? (
+                <ActivityIndicator size='large' color='#000' />
+            ) : users && users.length > 0 ? (
+                <>
+                    <FlatList
+                        data={users}
+                        renderItem={renderItem}
+
+                        keyExtractor={item => item._id}
+                        styles={styles.flatList}
+                    />
+                    <View style={{ flex: 1 }}>
+                        <View style={{ flexDirection: 'row', justifyContent: 'flex-end', marginVertical: 10 }}>
+                            {page > 1 &&
+                                <Button title='Trước' onPress={navigateToPreviousPage} />
+                            }
+                            {users.length === limit && (
+                                <Button title='Sau' onPress={navigateToNextPage} />
+                            )}
+                        </View>
+
+                        <View style={styles.container}>
+                            <TouchableOpacity style={styles.button} onPress={() => navigation.navigate('Register')} >
+                                <Ionicons name='add' style={styles.buttonText} />
+                            </TouchableOpacity>
+                        </View>
+                    </View>
+                </>
+            ) : (
+                <View>
+                    <Text>Không có User</Text>
+                    {page > 1 && (
+                        <Button title='Trước' onPress={navigateToPreviousPage} />
+                    )}
+                </View>
+            )
+
+            }
 
             <Modal isVisible={isModalVisible} onBackdropPress={() => setIsMoadlVisible(false)}>
                 <View style={styles.modalContainer}>
@@ -105,21 +137,6 @@ const AccountManagement = () => {
                 </View>
             </Modal >
 
-            <View style={{ flex: 1 }}>
-                <View style={{ flexDirection: 'row', justifyContent: 'flex-end', marginVertical: 10 }}>
-                    {(page > 1) ?
-                        <Button title='Trước' onPress={navigateToPreviousPage} />
-                        :
-                        <Button title='Sau' onPress={navigateToNextPage} />
-                    }
-                </View>
-
-                <View style={styles.container}>
-                    <TouchableOpacity style={styles.button} onPress={() => navigation.navigate('Register')} >
-                        <Ionicons name='add' style={styles.buttonText} />
-                    </TouchableOpacity>
-                </View>
-            </View>
         </View>
     )
 }
