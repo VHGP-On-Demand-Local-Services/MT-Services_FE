@@ -17,12 +17,10 @@ const CreateService = () => {
         const serviceData = { icon_name, name, expected_price };
         try {
             dispatch(createService(serviceData));
-            if (error === false) {
+            if (error === null) {
                 alert('Thêm dịch vụ thành công!');
-                dispatch(getAllService({ page: 1, limit: 6 }));
                 navigation.navigate('QL.Dịch vụ');
-            } else {
-                alert('Thêm dịch vụ thất bại!');
+                dispatch(getAllService({ page: 1, limit: 6 }));
             }
         } catch (error) {
             console.log('Error', error);

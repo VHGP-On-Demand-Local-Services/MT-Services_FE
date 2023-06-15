@@ -95,7 +95,7 @@ export const deleteService = createAsyncThunk(
 const initialState = {
     services: {},
     loading: false,
-    error: false,
+    error: null,
 };
 
 const serviceSlice = createSlice({
