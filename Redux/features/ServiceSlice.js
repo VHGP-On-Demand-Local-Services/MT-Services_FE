@@ -84,7 +84,7 @@ export const deleteService = createAsyncThunk(
         try {
             const token = await AsyncStorage.getItem("token");
             const response = await axios.delete(
-                `${BASE_URL}/api/v1/services/${id}`, {
+                `${BASE_URL}/api/v1/services/delete/${id}`, {
                     headers: { token: `Bearer ${token}` }
                 }
             );

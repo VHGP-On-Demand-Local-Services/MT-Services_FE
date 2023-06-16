@@ -5,6 +5,7 @@ import { useNavigation } from '@react-navigation/native';
 import { Button, FormControl, Input } from 'native-base';
 import { useSelector, useDispatch } from 'react-redux';
 import { createService, getAllService } from '../../Redux/features/ServiceSlice';
+import useFormatCurrency from '../../hooks/useFormatCurrency';
 
 const CreateService = () => {
     const dispatch = useDispatch();
@@ -12,6 +13,7 @@ const CreateService = () => {
     const [iconName, setIconName] = useState('');
     const [name, setName] = useState('');
     const [expectedPrice, setExpectedPrice] = useState('');
+    const formatExpected = useFormatCurrency(expectedPrice)
     const { error } = useSelector(state => state.service);
 
     const handleComplete = () => {
@@ -41,7 +43,7 @@ const CreateService = () => {
                         size="md"
                         placeholder="Nhập Icon..."
                         value={iconName}
-                        onChangeText={text => setIconName(text)}
+                        onChangeText={text => setIconName(text.toLowerCase())}
                     />
                 </View>
                 <View style={styles.inputGroup}>
@@ -61,6 +63,7 @@ const CreateService = () => {
                         value={expectedPrice}
                         onChangeText={text => setExpectedPrice(text)}
                     />
+                    <Text>{formatExpected}</Text>
                 </View>
                 <Button onPress={handleComplete} mt={4} style={styles.button}>
                     Hoàn Thành
