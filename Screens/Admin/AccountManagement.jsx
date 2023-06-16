@@ -5,24 +5,24 @@ import { useDispatch, useSelector } from 'react-redux'
 import { deleteUserById, getAllUsers, getUserById } from '../../Redux/features/UserSlice'
 import { Heading } from 'native-base'
 
-import { Ionicons, } from '@expo/vector-icons';
+import { Ionicons } from '@expo/vector-icons';
 
 import Modal from 'react-native-modal'
 
 const AccountManagement = () => {
     const [page, setPage] = useState(1)
-    const [limit, setLimit] = useState(3)
+    const [limit, setLimit] = useState(8)
 
     const navigation = useNavigation()
     const { loading, error, users } = useSelector(state => state.user.users)
     const dispatch = useDispatch()
 
-    const [isModalVisible, setIsMoadlVisible] = useState(false)
+    const [isModalVisible, setIsModalVisible] = useState(false)
     const [selectedUserId, setSelectedUserId] = useState('')
 
     const toggleModal = (id) => {
         setSelectedUserId(id)
-        setIsMoadlVisible(!isModalVisible)
+        setIsModalVisible(!isModalVisible)
     }
 
     useEffect(() => {
@@ -51,7 +51,7 @@ const AccountManagement = () => {
                     style: 'destructive',
                     onPress: () => {
                         dispatch(deleteUserById({ id: selectedUserId }))
-                        setIsMoadlVisible(false)
+                        setIsModalVisible(false)
                         dispatch(getAllUsers({ page: page, limit: limit }))
                     }
                 }
@@ -61,7 +61,7 @@ const AccountManagement = () => {
 
     const handleEditUser = () => {
         navigation.navigate('Chỉnh sửa thông tin', { userId: selectedUserId })
-        setIsMoadlVisible(false)
+        setIsModalVisible(false)
     }
 
     const renderItem = ({ item }) => {
@@ -91,39 +91,38 @@ const AccountManagement = () => {
                     <FlatList
                         data={users}
                         renderItem={renderItem}
-
                         keyExtractor={item => item._id}
                         styles={styles.flatList}
                     />
-                    <View style={{ flex: 1 }}>
-                        <View style={{ flexDirection: 'row', justifyContent: 'flex-end', marginVertical: 10 }}>
-                            {page > 1 &&
-                                <Button title='Trước' onPress={navigateToPreviousPage} />
-                            }
-                            {users.length === limit && (
-                                <Button title='Sau' onPress={navigateToNextPage} />
-                            )}
-                        </View>
-
-                        <View style={styles.container}>
-                            <TouchableOpacity style={styles.button} onPress={() => navigation.navigate('Register')} >
-                                <Ionicons name='add' style={styles.buttonText} />
+                    <View style={styles.pagination}>
+                        {page > 1 &&
+                            <TouchableOpacity style={styles.paginationButton} onPress={navigateToPreviousPage}>
+                                <Ionicons name='chevron-back' style={styles.paginationButtonIcon} />
                             </TouchableOpacity>
-                        </View>
+                        }
+                        {users.length === limit && (
+                            <TouchableOpacity style={styles.paginationButton} onPress={navigateToNextPage}>
+                                <Ionicons name='chevron-forward' style={styles.paginationButtonIcon} />
+                            </TouchableOpacity>
+                        )}
                     </View>
                 </>
             ) : (
                 <View>
                     <Text>Không có User</Text>
                     {page > 1 && (
-                        <Button title='Trước' onPress={navigateToPreviousPage} />
+                        <Button title='Trước' style={styles.paginationButton} onPress={navigateToPreviousPage} />
                     )}
                 </View>
-            )
+            )}
 
-            }
+            <View style={styles.container}>
+                <TouchableOpacity style={styles.addButton} onPress={() => navigation.navigate('Register')}>
+                    <Ionicons name='add' style={styles.addButtonIcon} />
+                </TouchableOpacity>
+            </View>
 
-            <Modal isVisible={isModalVisible} onBackdropPress={() => setIsMoadlVisible(false)}>
+            <Modal isVisible={isModalVisible} onBackdropPress={() => setIsModalVisible(false)}>
                 <View style={styles.modalContainer}>
                     <Text style={styles.modalTitle}>Edit or Delete?</Text>
 
@@ -135,8 +134,7 @@ const AccountManagement = () => {
                         <Text style={styles.modalButtonText}>Delete</Text>
                     </TouchableOpacity>
                 </View>
-            </Modal >
-
+            </Modal>
         </View>
     )
 }
@@ -147,7 +145,7 @@ const styles = StyleSheet.create({
         bottom: 50,
         right: 30,
     },
-    button: {
+    addButton: {
         backgroundColor: '#6fc4f2',
         width: 50,
         height: 50,
@@ -155,10 +153,19 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
     },
-    buttonText: {
+    addButtonIcon: {
         color: 'white',
         fontSize: 30,
+    },
+    noDataContainer: {
+        flex: 1,
+        justifyContent: 'center',
         alignItems: 'center',
+    },
+    noDataText: {
+        textAlign: 'center',
+        fontSize: 16,
+        marginTop: 20,
     },
     userItem: {
         flexDirection: "row",
@@ -171,6 +178,69 @@ const styles = StyleSheet.create({
     },
     flatList: {
         paddingTop: 20
+    },
+    pagination: {
+        flexDirection: 'row',
+        justifyContent: 'center',
+        marginVertical: 10,
+    },
+    paginationButton: {
+        backgroundColor: '#6fc4f2',
+        width: 40,
+        height: 40,
+        borderRadius: 20,
+        justifyContent: 'center',
+        alignItems: 'center',
+        marginHorizontal: 5,
+    },
+    paginationButtonIcon: {
+        color: 'white',
+        fontSize: 20,
+    },
+    addButtonContainer: {
+        flex: 1,
+    },
+    addButton: {
+        backgroundColor: '#6fc4f2',
+        width: 50,
+        height: 50,
+        borderRadius: 25,
+        justifyContent: 'center',
+        alignItems: 'center',
+        position: 'absolute',
+        bottom: 50,
+        right: 30,
+    },
+    addButtonIcon: {
+        color: 'white',
+        fontSize: 30,
+    },
+    userItemContainer: {
+        flex: 1,
+        paddingTop: 2,
+    },
+    userItem: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        padding: 10,
+        justifyContent: 'space-between',
+        backgroundColor: '#fff',
+        borderBottomColor: '#ccc',
+        borderBottomWidth: 1,
+    },
+    userInfo: {
+        flex: 1,
+        marginHorizontal: 5,
+    },
+    noDataContainer: {
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center',
+    },
+    noDataText: {
+        textAlign: 'center',
+        fontSize: 16,
+        marginTop: 20,
     },
     modalContainer: {
         backgroundColor: "#fff",
@@ -201,6 +271,6 @@ const styles = StyleSheet.create({
         color: "#fff",
         textAlign: "center",
     },
-})
+});
 
-export default AccountManagement
+export default AccountManagement;
