@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
@@ -8,23 +9,25 @@ import { createService, getAllService } from '../../Redux/features/ServiceSlice'
 const CreateService = () => {
     const dispatch = useDispatch();
     const navigation = useNavigation();
-    const [icon_name, setIconName] = useState('');
+    const [iconName, setIconName] = useState('');
     const [name, setName] = useState('');
-    const [expected_price, setExpectedPrice] = useState('');
-    const { services, error } = useSelector(state => state.service);
+    const [expectedPrice, setExpectedPrice] = useState('');
+    const { error } = useSelector(state => state.service);
 
     const handleComplete = () => {
-        const serviceData = { icon_name, name, expected_price };
-        try {
-            dispatch(createService(serviceData));
-            if (error === null) {
+        const serviceData = { icon_name: iconName, name, expected_price: expectedPrice };
+        dispatch(createService(serviceData))
+            .unwrap()
+            .then((response) => {
                 alert('Thêm dịch vụ thành công!');
                 navigation.navigate('QL.Dịch vụ');
                 dispatch(getAllService({ page: 1, limit: 6 }));
-            }
-        } catch (error) {
-            console.log('Error', error);
-        }
+                dispatch(serviceSlice.actions.error(null));
+                // dispatch(service.error(null)); 
+            })
+            .catch((error) => {
+                console.log('Error', error);
+            });
     };
 
     return (
@@ -37,7 +40,7 @@ const CreateService = () => {
                     <Input
                         size="md"
                         placeholder="Nhập Icon..."
-                        value={icon_name}
+                        value={iconName}
                         onChangeText={text => setIconName(text)}
                     />
                 </View>
@@ -55,7 +58,7 @@ const CreateService = () => {
                     <Input
                         size="md"
                         placeholder="Nhập giá dự kiến..."
-                        value={expected_price}
+                        value={expectedPrice}
                         onChangeText={text => setExpectedPrice(text)}
                     />
                 </View>
