@@ -16,8 +16,7 @@ export const getAllService = createAsyncThunk(
             );
             return response.data;
         } catch (err) {
-            k
-            console.log(err.response.data.message)
+            console.log(err.response.data.message);
             return rejectWithValue(err.response.data.message);
         }
     }
@@ -33,13 +32,14 @@ export const getServiceById = createAsyncThunk(
                     headers: { token: `Bearer ${token}` }
                 }
             );
-            return response.data
+            return response.data;
         } catch (err) {
             console.log(err.response.data.message);
             return rejectWithValue(err.response.data.message);
         }
     }
-)
+);
+
 export const createService = createAsyncThunk(
     "services/create-service",
     async(serviceData, { rejectWithValue }) => {
@@ -57,7 +57,8 @@ export const createService = createAsyncThunk(
             return rejectWithValue(err.response.data.message);
         }
     }
-)
+);
+
 export const updateService = createAsyncThunk(
     "services/updateService",
     async({ id, serviceData }, { rejectWithValue }) => {
@@ -66,7 +67,7 @@ export const updateService = createAsyncThunk(
             const response = await axios.put(
                 `${BASE_URL}/api/v1/services/update/${id}`,
                 serviceData, {
-                    headers: { token: `Bearer ${token}` },
+                    headers: { token: `Bearer ${token}` }
                 }
             );
             return response.data;
@@ -87,11 +88,13 @@ export const deleteService = createAsyncThunk(
                     headers: { token: `Bearer ${token}` }
                 }
             );
+            return response.data;
         } catch (err) {
-            return rejectWithValue(err.response.data.message)
+            console.log(err.response.data.message);
+            return rejectWithValue(err.response.data.message);
         }
     }
-)
+);
 const initialState = {
     services: {},
     loading: false,
@@ -133,6 +136,7 @@ const serviceSlice = createSlice({
             .addCase(createService.fulfilled, (state, action) => {
                 state.loading = false;
                 state.services = action.payload;
+                state.error = null
             })
             .addCase(createService.rejected, (state, action) => {
                 state.error = action.payload;
