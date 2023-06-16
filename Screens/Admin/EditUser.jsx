@@ -26,13 +26,16 @@ const EditUser = ({ route }) => {
 
     const handleSubmit = () => {
         const userData = { phone, name, apartment }
-        dispatch(updateUserById({ id: userId, userData: userData })).then(() => {
-            dispatch(getAllUsers({ page: 1, limit: 5 }))
-            alert('Edit Thành công !!')
-            navigation.navigate('QL.Tài khoản')
-        }).catch(e => {
-            console.log(e);
-        })
+        dispatch(updateUserById({ id: userId, userData: userData }))
+            .unwrap()
+            .then(() => {
+                alert('Edit Thành công !!')
+                navigation.navigate('QL.Tài khoản')
+                dispatch(getAllUsers({ page: 1, limit: 8 }))
+                dispatch(userSlice.actions.error(null));
+            }).catch(e => {
+                console.log(e);
+            })
     }
 
     return (
@@ -46,7 +49,7 @@ const EditUser = ({ route }) => {
                     <Heading size="2xl" fontWeight="700" color="coolGray.800" _dark={{
                         color: "warmGray.50"
                     }}>
-                        Edit User 
+                        Edit User
                     </Heading>
                     <VStack space={3} mt="5">
                         <FormControl>
