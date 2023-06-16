@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from 'react';
-import { FlatList, StyleSheet, TouchableOpacity, View, Text, ActivityIndicator } from 'react-native';
+import Modal from 'react-native-modal'
+import { FlatList, StyleSheet, TouchableOpacity, View, Text, ActivityIndicator, Alert } from 'react-native';
 import { Ionicons, MaterialIcons } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/native';
 import { useDispatch, useSelector } from 'react-redux';
-import { getAllService } from '../../Redux/features/ServiceSlice';
+import { deleteService, getAllService } from '../../Redux/features/ServiceSlice';
 
 const ServiceManagement = () => {
   const navigation = useNavigation();
@@ -11,14 +12,14 @@ const ServiceManagement = () => {
 
   const { loading, error, services } = useSelector(state => state.service.services);
   const [page, setPage] = useState(1);
-  const limit = 6;
+  const [limit, setLimit] = useState(6);
 
-  const [isShow, setIsShow] = useState(false);
+  const [isModalVisible, setIsMoadlVisible] = useState(false)
   const [selectServiceId, setSelectedServiceId] = useState('');
 
   const toggleModal = (id) => {
-    setIsShow(id);
-    setSelectedServiceId(!isShow);
+    setSelectedServiceId(id);
+    setIsMoadlVisible(!isModalVisible);
   };
 
   useEffect(() => {
@@ -35,6 +36,28 @@ const ServiceManagement = () => {
     }
   };
 
+  const handleDeleteService = () => {
+    Alert.alert(
+      'Xác Nhận',
+      'Bạn muốn xóa dịch vụ này ?',
+      [
+        {
+          text: 'Hủy',
+          style: 'cancel'
+        },
+        {
+          text: 'Đồng Ý',
+          style: 'destructive',
+          onPress: () => {
+            dispatch(deleteService({ id: selectServiceId }))
+            setIsMoadlVisible(false)
+            dispatch(getAllService({ page: page, limit: limit }))
+          }
+        }
+      ]
+    )
+  }
+
   const renderItem = ({ item }) => {
     return (
       <TouchableOpacity
@@ -46,7 +69,7 @@ const ServiceManagement = () => {
         <MaterialIcons name={item.icon_name} color='#333' size={46} />
         <View style={styles.serviceDetails}>
           <Text style={styles.serviceName}>{item.name}</Text>
-          <Text style={styles.servicePrice}>{item.expected_price} VND</Text>
+          <Text style={styles.servicePrice}>{item.expected_price}</Text>
         </View>
       </TouchableOpacity>
     );
@@ -97,7 +120,19 @@ const ServiceManagement = () => {
           )}
         </View>
       )}
+      <Modal isVisible={isModalVisible} onBackdropPress={() => setIsMoadlVisible(false)}>
+        <View style={styles.modalContainer}>
+          <Text style={styles.modalTitle}>Chỉnh Sửa hay Xóa?</Text>
 
+          <TouchableOpacity style={styles.modalButtonEdit}>
+            <Text style={styles.modalButtonText}>Chỉnh sửa</Text>
+          </TouchableOpacity>
+
+          <TouchableOpacity style={styles.modalButton} onPress={handleDeleteService}>
+            <Text style={styles.modalButtonText}>Xóa</Text>
+          </TouchableOpacity>
+        </View>
+      </Modal >
       <View style={styles.container_add}>
         <TouchableOpacity style={styles.button} onPress={() => navigation.navigate("Thêm Dịch Vụ")} >
           <Ionicons name='add' style={styles.buttonText} />
@@ -186,5 +221,34 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     fontSize: 16,
     marginTop: 20,
+  },
+  modalContainer: {
+    backgroundColor: "#fff",
+    padding: 20,
+    borderRadius: 10,
+    alignContent: 'center'
+
+  },
+  modalTitle: {
+    fontSize: 18,
+    fontWeight: "bold",
+    marginBottom: 10,
+    textAlign: 'center'
+  },
+  modalButton: {
+    backgroundColor: "#e74c3c",
+    padding: 10,
+    borderRadius: 5,
+    marginBottom: 10,
+  },
+  modalButtonEdit: {
+    backgroundColor: "blue",
+    padding: 10,
+    borderRadius: 5,
+    marginBottom: 10,
+  },
+  modalButtonText: {
+    color: "#fff",
+    textAlign: "center",
   },
 });
