@@ -5,6 +5,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import DateTimePicker from '@react-native-community/datetimepicker';
 import { createBooking } from '../../Redux/features/BookingSlice';
 import { useNavigation } from '@react-navigation/native';
+import useFormatCurrency from '../../hooks/useFormatCurrency';
 
 const Booking = ({ route }) => {
   const { service } = route.params
@@ -51,6 +52,15 @@ const Booking = ({ route }) => {
     return `${year}-${formattedMonth}-${formattedDay}, ${formattedHours}:${formattedMinutes}`;
   };
 
+  const currentDate = new Date();
+  currentDate.setDate(currentDate.getDate() + 1);
+
+  useEffect(() => {
+    const currentDate = new Date();
+    currentDate.setDate(currentDate.getDate() + 1);
+    setDate(currentDate);
+  }, []);
+
   return (
     <View style={{ flex: 1 }}>
       <View style={{ paddingTop: 20, paddingLeft: 14, paddingRight: 14, flex: 1 }}>
@@ -70,7 +80,7 @@ const Booking = ({ route }) => {
             mode={modeDate}
             is24Hour={true}
             onChange={onChange}
-            minimumDate={new Date()}
+            minimumDate={currentDate}
           />
         </View>
         <Input size='lg' mt={4} placeholder={formatDate(date)} isReadOnly={true} />
