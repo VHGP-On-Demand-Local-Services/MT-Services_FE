@@ -44,7 +44,7 @@ const BottomTab = () => {
                     tabBarIcon: ({ color }) => <Ionicons name="home" size={22} color={color} />,
                 }} />
                 <Tab.Screen name="Đơn hàng" component={Order} options={{
-                    headerShown: false,
+                    headerShown: true,
                     tabBarIcon: ({ color }) => <Ionicons name="document" size={22} color={color} />
                 }} />
                 <Tab.Screen name="Tài khoản" component={UserProfile} options={{
