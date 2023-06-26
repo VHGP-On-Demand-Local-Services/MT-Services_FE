@@ -74,8 +74,8 @@ const AccountManagement = () => {
                     key={item._id}
                 >
                     <Text>{item.phone}</Text>
-                    <Text>{item.name}</Text>
-                    <Text>{item.apartment}</Text>
+                    <Text style={styles.userInfo}>{item.name}</Text>
+                    <Text style={styles.apartmentInfo}>{item.apartment}</Text>
                 </TouchableOpacity>
             </View>
         );
@@ -83,7 +83,7 @@ const AccountManagement = () => {
 
     return (
         <View style={{ flex: 1, paddingTop: 50 }}>
-            <Heading style={{ textAlign: 'center', paddingBottom: 20 }}>Danh sách User</Heading>
+            <Heading style={{ textAlign: 'center', paddingBottom: 20 }}>Danh sách Người Dùng</Heading>
             {loading ? (
                 <ActivityIndicator size='large' color='#000' />
             ) : users && users.length > 0 ? (
@@ -109,7 +109,7 @@ const AccountManagement = () => {
                 </>
             ) : (
                 <View>
-                    <Text>Không có User</Text>
+                    <Text>Không có Người Dùng</Text>
                     {page > 1 && (
                         <Button title='Trước' style={styles.paginationButton} onPress={navigateToPreviousPage} />
                     )}
@@ -124,14 +124,14 @@ const AccountManagement = () => {
 
             <Modal isVisible={isModalVisible} onBackdropPress={() => setIsModalVisible(false)}>
                 <View style={styles.modalContainer}>
-                    <Text style={styles.modalTitle}>Edit or Delete?</Text>
+                    <Text style={styles.modalTitle}>Chọn Chức Năng?</Text>
 
                     <TouchableOpacity style={styles.modalButtonEdit} onPress={handleEditUser}>
-                        <Text style={styles.modalButtonText}>Edit</Text>
+                        <Text style={styles.modalButtonText}>Sửa Thông Tin</Text>
                     </TouchableOpacity>
 
                     <TouchableOpacity style={styles.modalButton} onPress={handleDeleteUser}>
-                        <Text style={styles.modalButtonText}>Delete</Text>
+                        <Text style={styles.modalButtonText}>Xóa Người Dùng</Text>
                     </TouchableOpacity>
                 </View>
             </Modal>
@@ -140,11 +140,7 @@ const AccountManagement = () => {
 }
 
 const styles = StyleSheet.create({
-    container: {
-        position: 'absolute',
-        bottom: 50,
-        right: 30,
-    },
+
     addButton: {
         backgroundColor: '#6fc4f2',
         width: 50,
@@ -167,18 +163,7 @@ const styles = StyleSheet.create({
         fontSize: 16,
         marginTop: 20,
     },
-    userItem: {
-        flexDirection: "row",
-        alignItems: "center",
-        padding: 10,
-        justifyContent: "space-between",
-        backgroundColor: "#fff",
-        borderBottomColor: "#ccc",
-        borderBottomWidth: 1,
-    },
-    flatList: {
-        paddingTop: 20
-    },
+
     pagination: {
         flexDirection: 'row',
         justifyContent: 'center',
@@ -221,7 +206,6 @@ const styles = StyleSheet.create({
     },
     userItem: {
         flexDirection: 'row',
-        alignItems: 'center',
         padding: 10,
         justifyContent: 'space-between',
         backgroundColor: '#fff',
@@ -230,7 +214,13 @@ const styles = StyleSheet.create({
     },
     userInfo: {
         flex: 1,
-        marginHorizontal: 5,
+        textAlign: 'left',
+        marginHorizontal: 40,
+        flexWrap: 'wrap'
+    },
+    apartmentInfo: {
+        textAlign: 'left',
+        flexWrap: 'wrap',
     },
     noDataContainer: {
         flex: 1,

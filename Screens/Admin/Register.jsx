@@ -7,6 +7,10 @@ import { registerUser } from '../../Redux/features/AuthSlice';
 import { getAllUsers } from '../../Redux/features/UserSlice';
 
 const Register = () => {
+
+    const dispatch = useDispatch()
+    const navigation = useNavigation()
+
     const [showPassword, setShowPassword] = useState(false)
     const [phone, setPhone] = useState('')
     const [name, setName] = useState('')
@@ -14,8 +18,7 @@ const Register = () => {
     const [password, setPassword] = useState('')
 
     const { isSignUp, user, error } = useSelector(state => state.auth)
-    const dispatch = useDispatch()
-    const navigation = useNavigation()
+
 
     const handleRegister = () => {
         const userData = { phone, name, apartment, password }
@@ -29,10 +32,6 @@ const Register = () => {
             }).catch(e => {
                 console.log('Error: ', e);
             })
-        // if (isSignUp == true) {
-        //     alert('Đăng kí thành công !!')
-        //     navigation.navigate('QL.Tài khoản')
-        // }
     }
 
     return (
@@ -47,27 +46,45 @@ const Register = () => {
                         </Heading>
                         <VStack space={3} mt="5">
                             <FormControl>
-                                <FormControl.Label>Phone</FormControl.Label>
-                                <Input size="md" type="text" placeholder='Enter your phone...' value={phone} onChangeText={(text) => setPhone(text)} />
 
-                                <FormControl.Label>Password</FormControl.Label>
+                                <FormControl.Label isRequired={true}>Số Điện Thoại</FormControl.Label>
+                                <Input
+                                    size="md"
+                                    type="text"
+                                    placeholder='Nhập Số Điện Thoại...'
+                                    value={phone}
+                                    onChangeText={(text) => setPhone(text)} />
+
+                                <FormControl.Label isRequired={true}>Mật Khẩu</FormControl.Label>
                                 <Input
                                     size="md"
                                     type={showPassword ? 'text' : 'password'}
                                     InputRightElement={<Pressable onPress={() => setShowPassword(!showPassword)}>
                                         <Icon as={<MaterialIcons name={showPassword ? "visibility" : "visibility-off"} />} size={5} mr="2" color="muted.400" />
                                     </Pressable>}
-                                    placeholder='Enter your password...'
+                                    placeholder='Nhập Mật Khẩu...'
                                     value={password}
                                     onChangeText={(text) => setPassword(text)}
                                 />
 
-                                <FormControl.Label>Name</FormControl.Label>
-                                <Input size="md" type="text" placeholder='Enter your name...' value={name} onChangeText={(text) => setName(text)} />
+                                <FormControl.Label isRequired={true}>Tên Người Thuê</FormControl.Label>
+                                <Input
+                                    size="md"
+                                    type="text"
+                                    placeholder='Nhập Tên Người Thuê...'
+                                    value={name}
+                                    onChangeText={(text) => setName(text)} />
 
-                                <FormControl.Label>Apartment </FormControl.Label>
-                                <Input size="md" type='text' placeholder='Enter your apartment...' value={apartment} onChangeText={(text) => setApartment(text)} />
+                                <FormControl.Label isRequired={true}>Căn Hộ</FormControl.Label>
+                                <Input
+                                    size="md"
+                                    type='text'
+                                    placeholder='Nhập Tên Căn Hộ...'
+                                    value={apartment}
+                                    onChangeText={(text) => setApartment(text)} />
+
                                 {error && <View style={{ paddingTop: 10 }}><Text style={{ color: 'red' }}>{error}</Text></View>}
+
                                 <Button onPress={handleRegister} mt="2" style={{ backgroundColor: '#6fc4f2' }}>
                                     Đăng kí
                                 </Button>
