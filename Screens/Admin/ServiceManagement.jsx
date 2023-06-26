@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import Modal from 'react-native-modal'
-import { FlatList, StyleSheet, TouchableOpacity, View, Text, ActivityIndicator, Alert } from 'react-native';
+import { FlatList, StyleSheet, TouchableOpacity, View, Text, ActivityIndicator, Alert, Button } from 'react-native';
 import { Ionicons, MaterialIcons } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/native';
 import { useDispatch, useSelector } from 'react-redux';
@@ -79,44 +79,33 @@ const ServiceManagement = () => {
     <View style={styles.container}>
       <Text style={styles.title}>Danh Sách Dịch Vụ</Text>
       {loading ? (
-        <ActivityIndicator size="large" color="#000" />
+        <ActivityIndicator size='large' color='#000' />
       ) : services && services.length > 0 ? (
         <>
           <FlatList
             data={services}
             renderItem={renderItem}
             keyExtractor={item => item._id}
-            contentContainerStyle={styles.listContainer}
+            styles={styles.flatList}
           />
-          <View style={styles.paginationContainer}>
-            {page > 1 && (
-              <TouchableOpacity
-                style={styles.paginationButton}
-                onPress={navigateToPreviousPage}
-              >
-                <Text style={styles.paginationButtonText}>Trước</Text>
+          <View style={styles.pagination}>
+            {page > 1 &&
+              <TouchableOpacity style={styles.paginationButton} onPress={navigateToPreviousPage}>
+                <Ionicons name='chevron-back' style={styles.paginationButtonIcon} />
               </TouchableOpacity>
-            )}
+            }
             {services.length === limit && (
-              <TouchableOpacity
-                style={styles.paginationButton}
-                onPress={navigateToNextPage}
-              >
-                <Text style={styles.paginationButtonText}>Sau</Text>
+              <TouchableOpacity style={styles.paginationButton} onPress={navigateToNextPage}>
+                <Ionicons name='chevron-forward' style={styles.paginationButtonIcon} />
               </TouchableOpacity>
             )}
           </View>
         </>
       ) : (
-        <View style={styles.noDataContainer}>
-          <Text style={styles.noDataText}>Không có dịch vụ.</Text>
+        <View>
+          <Text>Không có User</Text>
           {page > 1 && (
-            <TouchableOpacity
-              style={styles.paginationButton}
-              onPress={navigateToPreviousPage}
-            >
-              <Text style={styles.paginationButtonText}>Trước</Text>
-            </TouchableOpacity>
+            <Button title='Trước' style={styles.paginationButton} onPress={navigateToPreviousPage} />
           )}
         </View>
       )}
@@ -183,21 +172,23 @@ const styles = StyleSheet.create({
     fontSize: 14,
     color: '#666',
   },
-  paginationContainer: {
+  pagination: {
     flexDirection: 'row',
-    justifyContent: 'space-between',
+    justifyContent: 'center',
     marginVertical: 10,
   },
   paginationButton: {
-    backgroundColor: '#ccc',
-    paddingHorizontal: 15,
-    paddingVertical: 8,
-    borderRadius: 5,
+    backgroundColor: '#6fc4f2',
+    width: 40,
+    height: 40,
+    borderRadius: 20,
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginHorizontal: 5,
   },
-  paginationButtonText: {
-    color: '#fff',
-    fontSize: 16,
-    fontWeight: 'bold',
+  paginationButtonIcon: {
+    color: 'white',
+    fontSize: 20,
   },
   button: {
     backgroundColor: '#6fc4f2',
