@@ -11,98 +11,102 @@ const Order = () => {
 
 
   return (
-    <>
-      {/* <ScrollView
-        horizontal
-        showsVerticalScrollIndicator={false}
-        showsHorizontalScrollIndicator={false}
-      > */}
-      <View style={styles.tab_container}>
-        <TouchableOpacity
-          style={[styles.button, selectedTab === 'waiting' && styles.activeButton]}
-          onPress={() => handleTabPress('waiting')}
+    <View style={{ flex: 1 }}>
+      <View>
+        <ScrollView
+          horizontal
+          showsVerticalScrollIndicator={false}
+          showsHorizontalScrollIndicator={false}
         >
-          <Text style={[styles.buttonText, selectedTab === 'waiting' && styles.activeButtonText]}>
-            Chờ xác nhận
-          </Text>
-        </TouchableOpacity>
+          <View style={styles.tab_container}>
+            <TouchableOpacity
+              style={[styles.button, selectedTab === 'waiting' && styles.activeButton]}
+              onPress={() => handleTabPress('waiting')}
+            >
+              <Text style={[styles.buttonText, selectedTab === 'waiting' && styles.activeButtonText]}>
+                Chờ xác nhận
+              </Text>
+            </TouchableOpacity>
 
-        <TouchableOpacity
-          style={[styles.button, selectedTab === 'approved' && styles.activeButton]}
-          onPress={() => handleTabPress('approved')}
-        >
-          <Text style={[styles.buttonText, selectedTab === 'approved' && styles.activeButtonText]}>
-            Đã xác nhận
-          </Text>
-        </TouchableOpacity>
+            <TouchableOpacity
+              style={[styles.button, selectedTab === 'approved' && styles.activeButton]}
+              onPress={() => handleTabPress('approved')}
+            >
+              <Text style={[styles.buttonText, selectedTab === 'approved' && styles.activeButtonText]}>
+                Đã xác nhận
+              </Text>
+            </TouchableOpacity>
 
-        <TouchableOpacity
-          style={[styles.button, selectedTab === 'cancelled' && styles.activeButton]}
-          onPress={() => handleTabPress('cancelled')}
-        >
-          <Text style={[styles.buttonText, selectedTab === 'cancelled' && styles.activeButtonText]}>
-            Đã bị hủy
-          </Text>
-        </TouchableOpacity>
+            <TouchableOpacity
+              style={[styles.button, selectedTab === 'cancelled' && styles.activeButton]}
+              onPress={() => handleTabPress('cancelled')}
+            >
+              <Text style={[styles.buttonText, selectedTab === 'cancelled' && styles.activeButtonText]}>
+                Đã bị hủy
+              </Text>
+            </TouchableOpacity>
+          </View>
+        </ScrollView>
       </View>
-      {/* </ScrollView> */}
 
+      <View style={{ flex: 0.8 }}>
 
-      {selectedTab === 'waiting' && (
-        <ScrollView >
-          <View style={styles.container_waiting}>
-            <View style={styles.header_order}>
-              <Heading size='lg' style={{ alignSelf: 'flex-start' }}>Máy lạnh</Heading>
-              <TouchableOpacity >
-                <Text style={{ alignSelf: 'flex-end', color: 'red' }}>Hủy</Text>
-              </TouchableOpacity>
+        {selectedTab === 'waiting' && (
+          <ScrollView >
+            <View style={styles.container_waiting}>
+              <View style={styles.header_order}>
+                <Heading size='lg' style={{ alignSelf: 'flex-start' }}>Máy lạnh</Heading>
+                <TouchableOpacity >
+                  <Text style={{ alignSelf: 'flex-end', color: 'red' }}>Hủy</Text>
+                </TouchableOpacity>
+              </View>
+              <Heading size='sm' style={{ color: '#6fc4f2' }}>200000đ</Heading>
+              <Heading size='sm' style={{ color: '#3B4B72', marginTop: 5, marginBottom: 3 }}>Lịch hẹn: 2023-06-26, 11:30</Heading>
+              <Heading size='sm' style={{ color: '#3B4B72' }}>Căn hộ: A03-23</Heading>
             </View>
-            <Heading size='sm' style={{ color: '#6fc4f2' }}>200000đ</Heading>
-            <Heading size='sm' style={{ color: '#3B4B72', marginTop: 5, marginBottom: 3 }}>Lịch hẹn: 2023-06-26, 11:30</Heading>
-            <Heading size='sm' style={{ color: '#3B4B72' }}>Căn hộ: A03-23</Heading>
-          </View>
-          <View style={styles.container_waiting}>
-            <View style={styles.header_order}>
-              <Heading size='lg' style={{ alignSelf: 'flex-start' }}>Máy lạnh</Heading>
-              <TouchableOpacity>
-                <Text style={{ alignSelf: 'flex-end', color: 'red' }}>Hủy</Text>
-              </TouchableOpacity>
+            <View style={styles.container_waiting}>
+              <View style={styles.header_order}>
+                <Heading size='lg' style={{ alignSelf: 'flex-start' }}>Máy lạnh</Heading>
+                <TouchableOpacity>
+                  <Text style={{ alignSelf: 'flex-end', color: 'red' }}>Hủy</Text>
+                </TouchableOpacity>
+              </View>
+              <Heading size='sm' style={{ color: '#6fc4f2' }}>200000đ</Heading>
+              <Heading size='sm' style={{ color: '#3B4B72', marginTop: 5, marginBottom: 3 }}>Lịch hẹn: 2023-06-26, 11:30</Heading>
+              <Heading size='sm' style={{ color: '#3B4B72' }}>Căn hộ: A03-23</Heading>
             </View>
-            <Heading size='sm' style={{ color: '#6fc4f2' }}>200000đ</Heading>
-            <Heading size='sm' style={{ color: '#3B4B72', marginTop: 5, marginBottom: 3 }}>Lịch hẹn: 2023-06-26, 11:30</Heading>
-            <Heading size='sm' style={{ color: '#3B4B72' }}>Căn hộ: A03-23</Heading>
-          </View>
-        </ScrollView>
-      )}
+          </ScrollView>
+        )}
 
-      {selectedTab === 'approved' && (
-        <ScrollView>
-          <View style={styles.container_approve}>
-            <View style={styles.header_order}>
-              <Heading size='lg' style={{ alignSelf: 'flex-start' }}>Máy lạnh</Heading>
+        {selectedTab === 'approved' && (
+          <ScrollView>
+            <View style={styles.container_approve}>
+              <View style={styles.header_order}>
+                <Heading size='lg' style={{ alignSelf: 'flex-start' }}>Máy lạnh</Heading>
 
+              </View>
+              <Heading size='sm' style={{ color: '#6fc4f2' }}>200000đ</Heading>
+              <Heading size='sm' style={{ color: '#3B4B72', marginTop: 5, marginBottom: 3 }}>Lịch hẹn: 2023-06-26, 11:30</Heading>
+              <Heading size='sm' style={{ color: '#3B4B72' }}>Căn hộ: A03-23</Heading>
             </View>
-            <Heading size='sm' style={{ color: '#6fc4f2' }}>200000đ</Heading>
-            <Heading size='sm' style={{ color: '#3B4B72', marginTop: 5, marginBottom: 3 }}>Lịch hẹn: 2023-06-26, 11:30</Heading>
-            <Heading size='sm' style={{ color: '#3B4B72' }}>Căn hộ: A03-23</Heading>
-          </View>
-        </ScrollView>
-      )}
+          </ScrollView>
+        )}
 
-      {selectedTab === 'cancelled' && (
-        <ScrollView>
-          <View style={styles.container_cancelled}>
-            <View style={styles.header_order}>
-              <Heading size='lg' style={{ alignSelf: 'flex-start', color: 'white' }}>Máy lạnh</Heading>
+        {selectedTab === 'cancelled' && (
+          <ScrollView>
+            <View style={styles.container_cancelled}>
+              <View style={styles.header_order}>
+                <Heading size='lg' style={{ alignSelf: 'flex-start', color: 'white' }}>Máy lạnh</Heading>
+              </View>
+              <Heading size='sm' style={{ color: 'white' }}>200000đ</Heading>
+              <Heading size='sm' style={{ color: 'white', marginTop: 5, marginBottom: 3 }}>Lịch hẹn: 2023-06-26, 11:30</Heading>
+              <Heading size='sm' style={{ color: 'white' }}>Căn hộ: A03-23</Heading>
             </View>
-            <Heading size='sm' style={{ color: 'white' }}>200000đ</Heading>
-            <Heading size='sm' style={{ color: 'white', marginTop: 5, marginBottom: 3 }}>Lịch hẹn: 2023-06-26, 11:30</Heading>
-            <Heading size='sm' style={{ color: 'white' }}>Căn hộ: A03-23</Heading>
-          </View>
-        </ScrollView>
-      )}
+          </ScrollView>
+        )}
+      </View>
 
-    </>
+    </View>
   )
 }
 
