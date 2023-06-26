@@ -23,9 +23,11 @@ const Booking = ({ route }) => {
   const { booking, error, loading } = useSelector(state => state.booking)
   const { user } = useSelector(state => state.auth)
 
+  console.log(user);
+
 
   const handleBooking = () => {
-    const bookingData = { bookingItems: [{ quantity: quantity, service: service.id, status_duff: detailService }], user: user.id, dateBooking: formatDate(date) }
+    const bookingData = { bookingItems: [{ quantity: quantity, service: service.id, status_duff: detailService }], user: user._id, dateBooking: formatDate(date) }
     dispatch(createBooking(bookingData)).unwrap().then((response) => {
       alert('Đặt dịch vụ thành công!');
       navigation.navigate('Trang chủ');

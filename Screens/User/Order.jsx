@@ -49,7 +49,7 @@ const Order = () => {
         </ScrollView>
       </View>
 
-      <View style={{ flex: 0.8 }}>
+      <View style={{ flex: 1 }}>
 
         {selectedTab === 'waiting' && (
           <ScrollView >

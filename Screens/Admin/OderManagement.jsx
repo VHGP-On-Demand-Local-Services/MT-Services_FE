@@ -187,23 +187,43 @@
 import React, { useState, useEffect } from 'react'
 import { View, Text, StyleSheet, ScrollView, TouchableOpacity, FlatList } from 'react-native'
 import { Select, Heading } from 'native-base'
+import { useDispatch, useSelector } from 'react-redux'
+import { getAllBooking } from '../../Redux/features/BookingSlice'
 
 const OderManagement = () => {
   const [selectedTab, setSelectedTab] = useState('waiting'); // Giá trị mặc định là 'waiting'
   const [statusSelect, setStatusSelect] = useState('waiting')
+
+  const dispatch = useDispatch()
+  const { booking, error, loading } = useSelector(state => state.booking)
+
+  useEffect(() => {
+    dispatch(getAllBooking())
+  }, [dispatch])
 
   const handleTabPress = (tab) => {
     setSelectedTab(tab);
   };
 
   const renderWaitingItem = ({ item }) => {
+    const date = new Date(item.dateBooking);
+
+    const year = date.getFullYear();
+    const month = String(date.getMonth() + 1).padStart(2, '0');
+    const day = String(date.getDate()).padStart(2, '0');
+    const hours = String(date.getHours()).padStart(2, '0');
+    const minutes = String(date.getMinutes()).padStart(2, '0');
+
+    const formattedDate = `${year}-${month}-${day}, ${hours}:${minutes}`;
+
     return (
-      <View style={styles.container_waiting}>
-        <Heading size='lg'>Máy lạnh</Heading>
-        <Heading size='sm' style={{ color: '#6fc4f2' }}>200000đ</Heading>
-        <Heading size='sm' style={{ color: '#3B4B72', marginTop: 5, marginBottom: 3 }}>Lịch hẹn: 2023-06-26, 11:30</Heading>
+      <View style={styles.container_waiting} key={item.booking_item._id}>
+        <Heading size='lg'>{item.booking_item[0].service.name}</Heading>
+        <Heading size='sm' style={{ color: '#6fc4f2' }}>{item.totalPrice}đ</Heading>
+        <Heading size='sm' style={{ color: '#3B4B72', marginTop: 5, marginBottom: 3 }}>Lịch hẹn: {formattedDate}</Heading>
+        <Heading size='sm' style={{ color: '#3B4B72' }}>Điện thoại: {item.user.phone}</Heading>
         <View style={styles.header_order}>
-          <Heading size='sm' style={{ color: '#3B4B72' }}>Căn hộ: A03-23</Heading>
+          <Heading size='sm' style={{ color: '#3B4B72' }}>Căn hộ: {item.user.apartment}</Heading>
           <Select style={{ alignSelf: 'flex-end', color: '#f78d14', fontWeight: '500' }} selectedValue={statusSelect} minWidth="120" onValueChange={itemValue => setStatusSelect(itemValue)}>
             <Select.Item label='Waiting' value='waiting' />
             <Select.Item label='Approved' value='approved' />
@@ -220,6 +240,7 @@ const OderManagement = () => {
         <Heading size='lg' >Máy lạnh</Heading>
         <Heading size='sm' style={{ color: '#6fc4f2' }}>200000đ</Heading>
         <Heading size='sm' style={{ color: '#3B4B72', marginTop: 5, marginBottom: 3 }}>Lịch hẹn: 2023-06-26, 11:30</Heading>
+        <Heading size='sm' style={{ color: '#3B4B72' }}>Điện thoại: </Heading>
         <View style={styles.header_order}>
           <Heading size='sm' style={{ color: '#3B4B72' }}>Căn hộ: A03-23</Heading>
           <Select style={{ alignSelf: 'flex-end', color: '#056e1c', fontWeight: '500' }} selectedValue={statusSelect} minWidth="120" onValueChange={itemValue => setStatusSelect(itemValue)}>
@@ -238,6 +259,7 @@ const OderManagement = () => {
         <Heading size='lg' style={{ color: 'white' }}>Máy lạnh</Heading>
         <Heading size='sm' style={{ color: '#ccc' }}>200000đ</Heading>
         <Heading size='sm' style={{ color: 'white', marginTop: 5, marginBottom: 3 }}>Lịch hẹn: 2023-06-26, 11:30</Heading>
+        <Heading size='sm' style={{ color: '#3B4B72' }}>Điện thoại: </Heading>
         <View style={styles.header_order}>
           <Heading size='sm' style={{ color: 'white' }}>Căn hộ: A03-23</Heading>
           <Select style={{ alignSelf: 'flex-end', color: 'white', fontWeight: '500' }} selectedValue={statusSelect} minWidth="120" onValueChange={itemValue => setStatusSelect(itemValue)}>
@@ -289,12 +311,12 @@ const OderManagement = () => {
         </ScrollView>
       </View>
 
-      <View style={{ flex: 0.8 }}>
+      <View style={{ flex: 1 }}>
         {selectedTab === 'waiting' && (
           <FlatList
-            data={[1, 2]} // Thay thế dữ liệu mẫu bằng dữ liệu thật
+            data={booking} // Thay thế dữ liệu mẫu bằng dữ liệu thật
             renderItem={renderWaitingItem}
-            keyExtractor={(item) => item.toString()}
+            keyExtractor={(item) => item._id}
           />
         )}
 
