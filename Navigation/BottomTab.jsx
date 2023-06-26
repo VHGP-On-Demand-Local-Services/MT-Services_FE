@@ -31,7 +31,7 @@ const BottomTab = () => {
                     tabBarIcon: ({ color }) => <Ionicons name="key" size={22} color={color} />,
                 }} />
                 <Tab.Screen name="QL.Đơn hàng" component={OrderManagement} options={{
-                    headerShown: false,
+                    headerShown: true,
                     tabBarIcon: ({ color }) => <Ionicons name="clipboard" size={22} color={color} />
                 }} />
                 <Tab.Screen name="Tài khoản" component={UserProfile} options={{
