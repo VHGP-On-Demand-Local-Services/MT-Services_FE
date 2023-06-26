@@ -4,7 +4,7 @@ import { FlatList, StyleSheet, TouchableOpacity, View, Text, ActivityIndicator, 
 import { Ionicons, MaterialIcons } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/native';
 import { useDispatch, useSelector } from 'react-redux';
-import { deleteService, getAllService } from '../../Redux/features/ServiceSlice';
+import { deleteService, getAllService, getServiceById } from '../../Redux/features/ServiceSlice';
 
 const ServiceManagement = () => {
   const navigation = useNavigation();
@@ -56,6 +56,17 @@ const ServiceManagement = () => {
         }
       ]
     )
+  }
+
+  const handleUpdateService = () =>{
+    dispatch(getServiceById({ id: selectServiceId }))
+            .unwrap()
+            .then((respone) => {
+              navigation.navigate('Cập nhật dịch vụ',{ service: respone});
+            })
+            .catch((error) => {
+              console.log('Error',error);
+            });
   }
 
   const renderItem = ({ item }) => {
@@ -113,7 +124,7 @@ const ServiceManagement = () => {
         <View style={styles.modalContainer}>
           <Text style={styles.modalTitle}>Chỉnh Sửa hay Xóa?</Text>
 
-          <TouchableOpacity style={styles.modalButtonEdit}>
+          <TouchableOpacity style={styles.modalButtonEdit} onPress={handleUpdateService}>
             <Text style={styles.modalButtonText}>Chỉnh sửa</Text>
           </TouchableOpacity>
 
