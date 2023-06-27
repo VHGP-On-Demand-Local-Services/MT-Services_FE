@@ -1,6 +1,6 @@
 import { SafeAreaView, View, Text, Button, FlatList, TouchableOpacity, ActivityIndicator, StyleSheet, Alert } from 'react-native'
-import React, { useEffect, useState } from 'react'
-import { useNavigation } from '@react-navigation/native'
+import React, { useCallback, useEffect, useState } from 'react'
+import { useFocusEffect, useNavigation } from '@react-navigation/native'
 import { useDispatch, useSelector } from 'react-redux'
 import { deleteUserById, getAllUsers, getUserById } from '../../Redux/features/UserSlice'
 import { Heading } from 'native-base'
@@ -25,9 +25,15 @@ const AccountManagement = () => {
         setIsModalVisible(!isModalVisible)
     }
 
-    useEffect(() => {
-        dispatch(getAllUsers({ page: page, limit: limit }))
-    }, [dispatch, page])
+    // useEffect(() => {
+    //     dispatch(getAllUsers({ page: page, limit: limit }))
+    // }, [dispatch, page])
+
+    useFocusEffect(
+        useCallback(() => {
+            dispatch(getAllUsers({ page: page, limit: limit }))
+        }, [dispatch, page])
+    )
 
     const navigateToNextPage = () => {
         setPage(page + 1)
