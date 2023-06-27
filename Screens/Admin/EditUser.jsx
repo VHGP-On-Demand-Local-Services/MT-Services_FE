@@ -12,7 +12,7 @@ const EditUser = ({ route }) => {
     const { userId } = route.params
 
     const [name, setName] = useState('')
-    const [phone, setPhone] = useState('')
+    const [phone, setPhone] = useState()
     const [apartment, setApartment] = useState('')
     const navigation = useNavigation()
 
@@ -20,45 +20,49 @@ const EditUser = ({ route }) => {
 
     const dispatch = useDispatch()
 
-    // useEffect(() => {
-    //     dispatch(getUserById({ userId }))
-    // }, [dispatch, userId])
+    useEffect(() => {
+        dispatch(getUserById({ id: userId }))
+    }, [dispatch, userId])
+
+    useEffect(() => {
+        if (users) {
+            setName(users.name);
+            setPhone(users.phone ? users.phone.toString() : '');
+            setApartment(users.apartment);
+        }
+    }, [users]);
 
     const handleSubmit = () => {
-        const userData = { phone, name, apartment }
+        const userData = { phone, name, apartment };
         dispatch(updateUserById({ id: userId, userData: userData }))
             .unwrap()
             .then(() => {
-                alert('Edit Thành công !!')
-                navigation.navigate('QL.Tài khoản')
-                dispatch(getAllUsers({ page: 1, limit: 8 }))
+                alert('Edit Thành công !!');
+                navigation.navigate('QL.Tài khoản');
+                dispatch(getAllUsers({ page: 1, limit: 8 }));
                 dispatch(userSlice.actions.error(null));
             }).catch(e => {
                 console.log(e);
-            })
-    }
+            });
+    };
 
     return (
-        // <View>
-        //   <Text>EditUser {userId}</Text>
-        // </View>
         <ScrollView style={{ flex: 1 }}>
-            {/* <Text>EditUser {userId}</Text> */}
             <Center w='100%'>
                 <Box safeArea p="1" w="90%" maxW="300">
-                    <Heading size="2xl" fontWeight="700" color="coolGray.800" _dark={{
+                    <Heading size="xl" fontWeight="700" color="coolGray.800" _dark={{
                         color: "warmGray.50"
                     }}>
-                        Edit User
+                        Chỉnh sửa thông tin
                     </Heading>
                     <VStack space={3} mt="5">
                         <FormControl>
-                            <FormControl.Label>Phone</FormControl.Label>
-                            <Input size="md" placeholder='Enter your phone...' type="text" value={phone} onChangeText={(text) => setPhone(text)} />
-                            <FormControl.Label mt="5">Name</FormControl.Label>
-                            <Input size="md" type='text' placeholder="Enter your name..." value={name} onChangeText={(text) => setName(text)} />
-                            <FormControl.Label mt="5">Apartment</FormControl.Label>
-                            <Input size="md" placeholder="Enter your apartment..." type="text" value={apartment} onChangeText={(text) => setApartment(text)} />
+                            <FormControl.Label>Điện thoại</FormControl.Label>
+                            <Input size="md" type="text" value={phone} onChangeText={(text) => setPhone(text)} />
+                            <FormControl.Label mt="5">Tên</FormControl.Label>
+                            <Input size="md" type='text' value={name} onChangeText={(text) => setName(text)} />
+                            <FormControl.Label mt="5">Căn hộ</FormControl.Label>
+                            <Input size="md" type="text" value={apartment} onChangeText={(text) => setApartment(text)} />
                             <View style={{ paddingTop: 20, paddingBottom: 10 }}>
                                 {error && <Text style={{ color: '#f7232d' }}>{error}</Text>}
                             </View>
