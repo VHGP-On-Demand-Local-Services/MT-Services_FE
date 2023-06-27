@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
-import { View } from 'react-native';
+import { View, StyleSheet} from 'react-native';
 import { VStack, Input, Button, FormControl, Alert, Pressable, Icon, Text } from 'native-base';
 import { useDispatch, useSelector } from 'react-redux';
-import { changePassword, selectChangePasswordStatus } from '../../Redux/features/UserSlice';
+import { changePassword } from '../../Redux/features/UserSlice';
 import { MaterialIcons } from "@expo/vector-icons";
 import { useRoute } from '@react-navigation/native';
 import { logoutUser } from '../../Redux/features/AuthSlice';
@@ -14,46 +14,37 @@ const UserChangePassword = () => {
     const [showOldPassword, setShowOldPassword] = useState(false);
     const [showNewPassword, setShowNewPassword] = useState(false);
     const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+    const { error } = useSelector(state => state.user);
 
     const dispatch = useDispatch();
-    const changePasswordStatus = useSelector(selectChangePasswordStatus);
 
     const { user } = useSelector(state => state.auth)
 
     const handleSubmit = () => {
 
         // Dispatch the changePassword action
-        dispatch(changePassword({ id: user._id, passwordData: { oldPassword, newPassword, confirmPassword } }));
-
-
-        // Reset the form
-        setOldPassword('');
-        setNewPassword('');
-        setConfirmPassword('');
-    };
-
-    if (changePasswordStatus === 'success') {
-        setTimeout(() => {
+        dispatch(changePassword({ id: user._id, passwordData: { oldPassword, newPassword, confirmPassword } }))
+        .unwrap()
+        .then((response) => {
+            alert('Cập nhật mật khẩu thành công, vui lòng đăng nhập lại!');
+            setOldPassword('');
+            setNewPassword('');
+            setConfirmPassword('');
             dispatch(logoutUser());
-        }, 1000);
-    }
+            dispatch(userSlice.actions.error(null));
+        })
+        .catch((error) => {
+            console.log('Error', error);
+        });
+    };
 
     return (
 
-        <VStack space={4} maxWidth="400px" marginX="auto">
-            {changePasswordStatus === 'success' && (
-                <Alert status="success">
-                    Thay đổi mật khẩu thành công.
-                </Alert>
-            )}
-            {changePasswordStatus === 'error' && (
-                <Alert status="error">
-                    Thay đổi mật khẩu thất bại.
-                </Alert>
-            )}
-
-            <FormControl isRequired style={{ width: 200 }}>
-                <FormControl.Label>Mật khẩu hiện tại</FormControl.Label>
+        <View  style={styles.container}>
+            <Text style={styles.heading}>Đổi Mật Khẩu</Text>
+            {error && <Text style={styles.error}>{error}</Text>}
+            <FormControl isRequired style={styles.inputGroup}>
+                <FormControl.Label style={styles.label}>Mật khẩu hiện tại</FormControl.Label>
                 <Input
                     type={showOldPassword ? 'text' : 'password'}
                     InputRightElement={
@@ -73,8 +64,8 @@ const UserChangePassword = () => {
                 />
             </FormControl>
 
-            <FormControl isRequired style={{ width: 200 }}>
-                <FormControl.Label>Mật khẩu mới</FormControl.Label>
+            <FormControl isRequired style={styles.inputGroup}>
+                <FormControl.Label style={styles.label}>Mật khẩu mới</FormControl.Label>
                 <Input
                     type={showNewPassword ? 'text' : 'password'}
                     InputRightElement={
@@ -94,8 +85,8 @@ const UserChangePassword = () => {
                 />
             </FormControl>
 
-            <FormControl isRequired style={{ width: 200 }}>
-                <FormControl.Label>Xác nhận lại mật khẩu</FormControl.Label>
+            <FormControl isRequired style={styles.inputGroup}>
+                <FormControl.Label style={styles.label}>Xác nhận lại mật khẩu</FormControl.Label>
                 <Input
                     type={showConfirmPassword ? 'text' : 'password'}
                     InputRightElement={
@@ -114,9 +105,47 @@ const UserChangePassword = () => {
                     onChangeText={(text) => setConfirmPassword(text)}
                 />
             </FormControl>
-            <Button onPress={handleSubmit}>Xác nhận</Button>
-        </VStack>
+            <Button onPress={handleSubmit}  mt={4} style={styles.button}>Xác nhận</Button>
+        </View>
     );
 };
+
+const styles = StyleSheet.create({
+    container: {
+        flex: 1,
+        padding: 16,
+        backgroundColor: '#fff',
+    },
+    heading: {
+        fontSize: 24,
+        fontWeight: 'bold',
+        marginBottom: 16,
+        textAlign: 'center',
+        paddingTop:5
+    },
+    formControl: {
+        marginBottom: 16,
+    },
+    inputGroup: {
+        marginBottom: 12,
+    },
+    label: {
+        fontSize: 16,
+        fontWeight: 'bold',
+        marginBottom: 4,
+    },
+    button: {
+        backgroundColor: '#6fc4f2',
+        marginTop: 24,
+        borderRadius: 8,
+        justifyContent: 'center',
+    },
+    error: {
+        color: 'red',
+        fontSize: 16,
+        marginTop: 8,
+        textAlign: 'center',
+    },
+});
 
 export default UserChangePassword;

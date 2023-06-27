@@ -148,6 +148,7 @@ const serviceSlice = createSlice({
             .addCase(updateService.fulfilled, (state, action) => {
                 state.services = action.payload;
                 state.loading = false;
+                state.error = null;
             })
             .addCase(updateService.rejected, (state, action) => {
                 state.error = action.payload;

@@ -6,7 +6,6 @@ const initialState = {
   users: {},
   loading: false,
   error: null,
-  changePasswordStatus: null
 };
 
 const BASE_URL = "https://home-service-vinhome.onrender.com";
@@ -160,23 +159,17 @@ const userSlice = createSlice({
       })
       .addCase(changePassword.pending, (state) => {
         state.loading = true;
-        state.changePasswordStatus = null;
       })
       .addCase(changePassword.fulfilled, (state, action) => {
         state.loading = false;
-        state.changePasswordStatus = action.payload;
+        state.users = action.payload;
+        state.error = null;
       })
       .addCase(changePassword.rejected, (state, action) => {
+        state.error = action.payload;
         state.loading = false;
-        state.changePasswordStatus = action.payload;
       });
   }
 });
-
-export function selectChangePasswordStatus(state) {
-  const status = state.user.changePasswordStatus;
-  state.user.changePasswordStatus = "";
-  return status;
-}
 
 export default userSlice.reducer;
