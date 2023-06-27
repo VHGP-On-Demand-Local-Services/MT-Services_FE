@@ -33,11 +33,27 @@ export const createBooking = createAsyncThunk(
 
 export const getAllBooking = createAsyncThunk(
   "booking/getAllBooking",
-  async (_,{ rejectWithValue }) => {
+  async (_, { rejectWithValue }) => {
+    try {
+      const token = await AsyncStorage.getItem("token");
+      const response = await axios.get(`${BASE_URL}/api/v1/booking`, {
+        headers: { token: `Bearer ${token}` }
+      });
+      return response.data;
+    } catch (error) {
+      console.log(error.response.data.message);
+      return rejectWithValue(error.response.data.message);
+    }
+  }
+);
+
+export const getBookingByUserId = createAsyncThunk(
+  "booking/getBookingByUserId",
+  async ({ userId }, { rejectWithValue }) => {
     try {
       const token = await AsyncStorage.getItem("token");
       const response = await axios.get(
-        `${BASE_URL}/api/v1/booking`,
+        `${BASE_URL}/api/v1/booking/userBooking/${userId}`,
         {
           headers: { token: `Bearer ${token}` }
         }
@@ -78,6 +94,17 @@ const bookingSlice = createSlice({
       .addCase(getAllBooking.rejected, (state, action) => {
         state.error = action.payload;
         state.loading = false;
+      })
+      .addCase(getBookingByUserId.pending, (state) => {
+        state.loading = true;
+      })
+      .addCase(getBookingByUserId.fulfilled, (state, action) => {
+        state.booking = action.payload;
+        state.loading = false;
+      })
+      .addCase(getBookingByUserId.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload;
       });
   }
 });
