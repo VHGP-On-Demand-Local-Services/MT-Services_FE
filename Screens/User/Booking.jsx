@@ -1,11 +1,10 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useCallback } from 'react'
 import { View, } from 'react-native'
 import { Heading, Input, Button, Text } from 'native-base'
 import { useDispatch, useSelector } from 'react-redux'
 import DateTimePicker from '@react-native-community/datetimepicker';
 import { createBooking } from '../../Redux/features/BookingSlice';
 import { useNavigation } from '@react-navigation/native';
-import useFormatCurrency from '../../hooks/useFormatCurrency';
 
 const Booking = ({ route }) => {
   const { service } = route.params
@@ -22,9 +21,6 @@ const Booking = ({ route }) => {
   const dispatch = useDispatch()
   const { booking, error, loading } = useSelector(state => state.booking)
   const { user } = useSelector(state => state.auth)
-
-  console.log(user);
-
 
   const handleBooking = () => {
     const bookingData = { bookingItems: [{ quantity: quantity, service: service.id, status_duff: detailService }], user: user._id, dateBooking: formatDate(date) }
