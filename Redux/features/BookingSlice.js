@@ -66,6 +66,45 @@ export const getBookingByUserId = createAsyncThunk(
   }
 );
 
+export const updateBookingStatus = createAsyncThunk(
+  "booking/updateBookingStatus",
+  async ({ id, data }, { rejectWithValue }) => {
+    try {
+      const token = await AsyncStorage.getItem("token");
+      const response = await axios.put(
+        `${BASE_URL}/api/v1/booking/update/${id}`,
+        data,
+        {
+          headers: { token: `Bearer ${token}` }
+        }
+      );
+      return response.data;
+    } catch (error) {
+      console.log(error.response.data.message);
+      return rejectWithValue(error.response.data.message);
+    }
+  }
+);
+
+export const deleteBookingById = createAsyncThunk(
+  "booking/deleteBookingById",
+  async ({ id }, { rejectWithValue }) => {
+    try {
+      const token = await AsyncStorage.getItem("token");
+      const response = await axios.delete(
+        `${BASE_URL}/api/v1/booking/delete/${id}`,
+        {
+          headers: { token: `Bearer ${token}` }
+        }
+      );
+      // return "Success";
+    } catch (error) {
+      console.log(error.response.data.message);
+      return rejectWithValue(error.response.data.message);
+    }
+  }
+);
+
 const bookingSlice = createSlice({
   name: "booking",
   initialState,
@@ -105,6 +144,28 @@ const bookingSlice = createSlice({
       .addCase(getBookingByUserId.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload;
+      })
+      .addCase(updateBookingStatus.pending, (state) => {
+        state.loading = true;
+      })
+      .addCase(updateBookingStatus.fulfilled, (state, action) => {
+        state.loading = false;
+        state.booking = action.payload;
+      })
+      .addCase(updateBookingStatus.rejected, (state, action) => {
+        state.error = action.payload;
+        state.loading = false;
+      })
+      .addCase(deleteBookingById.pending, (state) => {
+        state.loading = true;
+      })
+      .addCase(deleteBookingById.fulfilled, (state, action) => {
+        state.loading = false;
+        state.booking = action.payload;
+      })
+      .addCase(deleteBookingById.rejected, (state, action) => {
+        state.error = action.payload;
+        state.loading = false;
       });
   }
 });
