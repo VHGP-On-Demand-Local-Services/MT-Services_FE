@@ -1,12 +1,14 @@
 import React, { useState, useEffect, useCallback } from 'react'
-import { View, Text, StyleSheet, ScrollView, TouchableOpacity } from 'react-native'
+import { View, Text, StyleSheet, ScrollView, TouchableOpacity, Alert } from 'react-native'
 import { Heading } from 'native-base'
 import { useDispatch, useSelector } from 'react-redux'
-import { getBookingByUserId } from '../../Redux/features/BookingSlice'
+import { deleteBookingById, getBookingByUserId } from '../../Redux/features/BookingSlice'
 import { useFocusEffect } from '@react-navigation/native'
 
 const Order = () => {
   const [selectedTab, setSelectedTab] = useState('Waiting');
+  // const [seletedBookingId, setSelectedBookingId] = useState('')
+
   const dispatch = useDispatch()
 
   const { user } = useSelector(state => state.auth)
@@ -16,8 +18,6 @@ const Order = () => {
     setSelectedTab(tab);
   };
 
-  console.log(booking)
-
   useFocusEffect(
     useCallback(() => {
       dispatch(getBookingByUserId({ userId: user._id }))
@@ -25,6 +25,27 @@ const Order = () => {
   )
 
   const filteredBookings = booking && Array.isArray(booking) ? booking.filter(item => item.status === selectedTab) : [];
+
+  const handleDeleteBooking = ({ id }) => {
+    Alert.alert(
+      'Xác nhận',
+      'Bạn có chắc chắn muốn hủy đơn hàng này không?',
+      [
+        {
+          text: 'Hủy bỏ',
+          style: 'cancel'
+        },
+        {
+          text: 'Hủy',
+          style: 'destructive',
+          onPress: () => {
+            dispatch(deleteBookingById({ id: id }))
+            dispatch(getBookingByUserId({ userId: user._id }))
+          }
+        }
+      ]
+    )
+  }
 
   return (
     <View style={{ flex: 1 }}>
@@ -79,8 +100,8 @@ const Order = () => {
               <View style={styles.header_order} key={item.booking_item._id}>
                 <Heading size='lg' style={selectedTab === 'Cancel' ? styles.name_service_cancel : styles.name_service}>{item.booking_item[0].service.name}</Heading>
                 {selectedTab === 'Complete' || selectedTab === 'Cancel' ? '' : (
-                  <TouchableOpacity >
-                    <Text style={{ alignSelf: 'flex-end', color: 'red' }}>Hủy</Text>
+                  <TouchableOpacity onPress={() => handleDeleteBooking(item)}>
+                    <Text style={{ alignSelf: 'flex-end', color: 'red' }} >Hủy</Text>
                   </TouchableOpacity>
                 )}
               </View>
