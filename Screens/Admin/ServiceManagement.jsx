@@ -6,6 +6,7 @@ import { useNavigation, useFocusEffect } from '@react-navigation/native';
 import { useDispatch, useSelector } from 'react-redux';
 import { deleteService, getAllService, getServiceById } from '../../Redux/features/ServiceSlice';
 
+
 const ServiceManagement = () => {
   const navigation = useNavigation();
   const dispatch = useDispatch();
@@ -24,9 +25,9 @@ const ServiceManagement = () => {
 
   useFocusEffect(
     useCallback(() => {
-        dispatch(getAllService({ page: page, limit: limit }));
+      dispatch(getAllService({ page: page, limit: limit }));
     }, [dispatch, page])
-)
+  )
 
   const navigateToNextPage = () => {
     setPage(page + 1);
@@ -60,19 +61,24 @@ const ServiceManagement = () => {
     )
   }
 
-  const handleUpdateService = () =>{
+  const handleUpdateService = () => {
     dispatch(getServiceById({ id: selectServiceId }))
-            .unwrap()
-            .then((respone) => {
-              navigation.navigate('Cập nhật dịch vụ',{ service: respone});
-            })
-            .catch((error) => {
-              console.log('Error',error);
-            });
-            setIsModalVisible(false);
+      .unwrap()
+      .then((respone) => {
+        navigation.navigate('Cập nhật dịch vụ', { service: respone });
+      })
+      .catch((error) => {
+        console.log('Error', error);
+      });
+    setIsModalVisible(false);
   }
 
   const renderItem = ({ item }) => {
+    const formattedPrice = item.expected_price.toLocaleString('vi-VN', {
+      style: 'currency',
+      currency: 'VND',
+    });
+
     return (
       <TouchableOpacity
         style={styles.serviceList}
@@ -80,10 +86,10 @@ const ServiceManagement = () => {
         onPress={() => toggleModal(item._id)}
         onLongPress={() => toggleModal(item._id)}
       >
-        <MaterialIcons name={item.icon_name} color='#333' size={46} />
+        <MaterialIcons name={item.icon_name} color="#333" size={46} />
         <View style={styles.serviceDetails}>
           <Text style={styles.serviceName}>{item.name}</Text>
-          <Text style={styles.servicePrice}>{item.expected_price}</Text>
+          <Text style={styles.servicePrice}>{formattedPrice}</Text>
         </View>
       </TouchableOpacity>
     );
@@ -117,7 +123,7 @@ const ServiceManagement = () => {
         </>
       ) : (
         <View>
-          <Text>Không có User</Text>
+          <Text>Không Có Dịch Vụ</Text>
           {page > 1 && (
             <Button title='Trước' style={styles.paginationButton} onPress={navigateToPreviousPage} />
           )}
