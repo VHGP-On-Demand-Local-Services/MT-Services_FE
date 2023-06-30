@@ -6,7 +6,7 @@ import { Button, FormControl, Input } from 'native-base';
 import { useSelector, useDispatch } from 'react-redux';
 import { createService, getAllService } from '../../Redux/features/ServiceSlice';
 import useFormatCurrency from '../../hooks/useFormatCurrency';
-
+import { setError } from '../../Redux/features/ServiceSlice';
 const CreateService = () => {
     const dispatch = useDispatch();
     const navigation = useNavigation();
@@ -24,8 +24,7 @@ const CreateService = () => {
                 alert('Thêm dịch vụ thành công!');
                 navigation.navigate('QL.Dịch vụ');
                 dispatch(getAllService({ page: 1, limit: 6 }));
-                dispatch(serviceSlice.actions.error(null));
-                // dispatch(service.error(null)); 
+                dispatch(setError(null));
             })
             .catch((error) => {
                 console.log('Error', error);
