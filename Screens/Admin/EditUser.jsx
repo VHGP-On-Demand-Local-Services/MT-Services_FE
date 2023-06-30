@@ -57,11 +57,11 @@ const EditUser = ({ route }) => {
                     </Heading>
                     <VStack space={3} mt="5">
                         <FormControl>
-                            <FormControl.Label>Điện thoại</FormControl.Label>
+                            <FormControl.Label isRequired>Điện thoại</FormControl.Label>
                             <Input size="md" type="text" value={phone} onChangeText={(text) => setPhone(text)} />
-                            <FormControl.Label mt="5">Tên</FormControl.Label>
+                            <FormControl.Label mt="5" isRequired>Tên</FormControl.Label>
                             <Input size="md" type='text' value={name} onChangeText={(text) => setName(text)} />
-                            <FormControl.Label mt="5">Căn hộ</FormControl.Label>
+                            <FormControl.Label mt="5" isRequired>Căn hộ</FormControl.Label>
                             <Input size="md" type="text" value={apartment} onChangeText={(text) => setApartment(text)} />
                             <View style={{ paddingTop: 20, paddingBottom: 10 }}>
                                 {error && <Text style={{ color: '#f7232d' }}>{error}</Text>}
