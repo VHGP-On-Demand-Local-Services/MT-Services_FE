@@ -5,9 +5,11 @@ import { useNavigation } from '@react-navigation/native';
 import { Button, FormControl, Input } from 'native-base';
 import { useSelector, useDispatch } from 'react-redux';
 import { updateService, getAllService } from '../../Redux/features/ServiceSlice';
+import { setError } from '../../Redux/features/ServiceSlice';
+
 import useFormatCurrency from '../../hooks/useFormatCurrency';
 
-const UpdateService = ({route}) => {
+const UpdateService = ({ route }) => {
     const dispatch = useDispatch();
     const navigation = useNavigation();
     const [iconName, setIconName] = useState('');
@@ -23,16 +25,16 @@ const UpdateService = ({route}) => {
         setIconName(service.icon_name);
         setName(service.name);
         setOldPrice(service.expected_price.toString());
-      }, [service]);
+    }, [service]);
 
     const handleComplete = () => {
-        dispatch(updateService({ id: service._id, serviceData: { icon_name: iconName, name, expected_price: expectedPrice} }))
+        dispatch(updateService({ id: service._id, serviceData: { icon_name: iconName, name, expected_price: expectedPrice } }))
             .unwrap()
             .then((response) => {
                 alert('Cập nhật dịch vụ thành công');
                 navigation.navigate('QL.Dịch vụ');
                 dispatch(getAllService({ page: 1, limit: 6 }));
-                dispatch(serviceSlice.actions.error(null));
+                dispatch(setError(null));
             })
             .catch((error) => {
                 console.log('Error', error);
@@ -44,7 +46,7 @@ const UpdateService = ({route}) => {
             <Text style={styles.heading}>Cập Nhật Dịch Vụ</Text>
             {error && <Text style={styles.error}>{error}</Text>}
             <FormControl style={styles.formControl}>
-            <View style={styles.inputGroup}>
+                <View style={styles.inputGroup}>
                     <FormControl.Label style={styles.label}>Tên Dịch Vụ:</FormControl.Label>
                     {/* <Input
                         size="md"
@@ -102,8 +104,8 @@ const styles = StyleSheet.create({
     inputGroup: {
         marginBottom: 12,
     },
-    text:{
-        marginLeft:15,
+    text: {
+        marginLeft: 15,
         fontSize: 16,
         fontWeight: 'bold',
         marginBottom: 4,

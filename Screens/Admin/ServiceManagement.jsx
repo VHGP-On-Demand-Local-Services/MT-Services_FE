@@ -4,7 +4,7 @@ import { FlatList, StyleSheet, TouchableOpacity, View, Text, ActivityIndicator, 
 import { Ionicons, MaterialIcons } from '@expo/vector-icons';
 import { useNavigation, useFocusEffect } from '@react-navigation/native';
 import { useDispatch, useSelector } from 'react-redux';
-import { deleteService, getAllService, getServiceById } from '../../Redux/features/ServiceSlice';
+import { deleteService, getAllService, getServiceById, createService } from '../../Redux/features/ServiceSlice';
 
 
 const ServiceManagement = () => {
@@ -27,7 +27,13 @@ const ServiceManagement = () => {
     useCallback(() => {
       dispatch(getAllService({ page: page, limit: limit }));
     }, [dispatch, page])
-  )
+  );
+
+  useEffect(() => {
+    if (!loading && services && services.length === 0 && page > 1) {
+      setPage(page - 1);
+    }
+  }, [loading, services, page]);
 
   const navigateToNextPage = () => {
     setPage(page + 1);
@@ -41,20 +47,26 @@ const ServiceManagement = () => {
 
   const handleDeleteService = () => {
     Alert.alert(
-      'Xác Nhận',
-      'Bạn muốn xóa dịch vụ này ?',
+      'Xác Nhận',
+      'Bạn muốn xoá dịch vụ này?',
       [
         {
-          text: 'Hủy',
+          text: 'Hủy',
           style: 'cancel'
         },
         {
-          text: 'Đồng Ý',
+          text: 'Đồng ý',
           style: 'destructive',
           onPress: () => {
             dispatch(deleteService({ id: selectServiceId }))
-            setIsModalVisible(false)
-            dispatch(getAllService({ page: page, limit: limit }))
+              .unwrap()
+              .then(() => {
+                setIsModalVisible(false);
+                dispatch(getAllService({ page: page, limit: limit }));
+              })
+              .catch((error) => {
+                console.log('Error', error);
+              });
           }
         }
       ]
@@ -64,13 +76,17 @@ const ServiceManagement = () => {
   const handleUpdateService = () => {
     dispatch(getServiceById({ id: selectServiceId }))
       .unwrap()
-      .then((respone) => {
-        navigation.navigate('Cập nhật dịch vụ', { service: respone });
+      .then((response) => {
+        navigation.navigate('Cập nhật dịch vụ', { service: response });
       })
       .catch((error) => {
         console.log('Error', error);
       });
     setIsModalVisible(false);
+  }
+
+  const handleCreateService = () => {
+    navigation.navigate('Thêm Dịch Vụ');
   }
 
   const renderItem = ({ item }) => {
@@ -106,7 +122,7 @@ const ServiceManagement = () => {
             data={services}
             renderItem={renderItem}
             keyExtractor={item => item._id}
-            styles={styles.flatList}
+            style={styles.flatList}
           />
           <View style={styles.pagination}>
             {page > 1 &&

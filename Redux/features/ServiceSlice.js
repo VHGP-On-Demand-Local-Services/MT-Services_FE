@@ -104,8 +104,11 @@ const initialState = {
 const serviceSlice = createSlice({
     name: 'service',
     initialState,
-    reducers: {},
-
+    reducers: {
+        setError: (state, action) => {
+            state.error = action.payload;
+        },
+    },
     extraReducers: (builder) => {
         builder
             .addCase(getAllService.pending, (state) => {
@@ -120,11 +123,11 @@ const serviceSlice = createSlice({
                 state.loading = false;
             })
             .addCase(getServiceById.pending, (state) => {
-                state.loading = true
+                state.loading = true;
             })
             .addCase(getServiceById.fulfilled, (state, action) => {
-                state.loading = false;
                 state.services = action.payload;
+                state.loading = false;
             })
             .addCase(getServiceById.rejected, (state, action) => {
                 state.error = action.payload;
@@ -134,16 +137,16 @@ const serviceSlice = createSlice({
                 state.loading = true;
             })
             .addCase(createService.fulfilled, (state, action) => {
-                state.loading = false;
                 state.services = action.payload;
-                state.error = null
+                state.loading = false;
+                state.error = null;
             })
             .addCase(createService.rejected, (state, action) => {
                 state.error = action.payload;
                 state.loading = false;
             })
             .addCase(updateService.pending, (state) => {
-                state.loading = true
+                state.loading = true;
             })
             .addCase(updateService.fulfilled, (state, action) => {
                 state.services = action.payload;
@@ -152,7 +155,7 @@ const serviceSlice = createSlice({
             })
             .addCase(updateService.rejected, (state, action) => {
                 state.error = action.payload;
-                state.loading = false
+                state.loading = false;
             })
             .addCase(deleteService.pending, (state) => {
                 state.loading = true;
@@ -164,7 +167,9 @@ const serviceSlice = createSlice({
             .addCase(deleteService.rejected, (state, action) => {
                 state.error = action.payload;
                 state.loading = false;
-            })
+            });
     },
 });
+
+export const { setError } = serviceSlice.actions;
 export default serviceSlice.reducer;
