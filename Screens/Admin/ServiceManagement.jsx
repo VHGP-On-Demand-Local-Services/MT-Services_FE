@@ -85,9 +85,6 @@ const ServiceManagement = () => {
     setIsModalVisible(false);
   }
 
-  const handleCreateService = () => {
-    navigation.navigate('Thêm Dịch Vụ');
-  }
 
   const renderItem = ({ item }) => {
     const formattedPrice = item.expected_price.toLocaleString('vi-VN', {
