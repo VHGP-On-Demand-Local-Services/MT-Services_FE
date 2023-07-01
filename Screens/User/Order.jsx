@@ -97,27 +97,40 @@ const Order = () => {
               </View>
             )
             :
-            (filteredBookings.map(item => (
-              <View key={item._id} style={
-                selectedTab && selectedTab === 'Waiting'
-                  ?
-                  styles.container_waiting
-                  : selectedTab && selectedTab === 'Complete'
-                    ? styles.container_complete
-                    : styles.container_cancel
-              } >
-                <View style={styles.header_order} key={item.booking_item._id}>
-                  <Heading size='lg' style={selectedTab === 'Cancel' ? styles.name_service_cancel : styles.name_service}>{item.booking_item[0].service.name}</Heading>
-                  {selectedTab === 'Complete' || selectedTab === 'Cancel' ? '' : (
-                    <TouchableOpacity onPress={() => handleDeleteBooking(item)}>
-                      <Text style={{ alignSelf: 'flex-end', color: 'red' }} >Hủy</Text>
-                    </TouchableOpacity>
-                  )}
+            (filteredBookings.map(item => {
+              const formattedPrice = item.totalPrice.toLocaleString('vi-VN', {
+                style: 'currency',
+                currency: 'VND',
+              });
+
+              return (
+                <View key={item._id} style={
+                  selectedTab && selectedTab === 'Waiting'
+                    ? styles.container_waiting
+                    : selectedTab && selectedTab === 'Complete'
+                      ? styles.container_complete
+                      : styles.container_cancel
+                }>
+                  <View style={styles.header_order} key={item.booking_item._id}>
+                    <Heading size='lg' style={selectedTab === 'Cancel' ? styles.name_service_cancel : styles.name_service}>
+                      {item.booking_item[0].service.name}
+                    </Heading>
+                    {selectedTab === 'Complete' || selectedTab === 'Cancel' ? '' : (
+                      <TouchableOpacity onPress={() => handleDeleteBooking(item)}>
+                        <Text style={{ alignSelf: 'flex-end', color: 'red' }}>Hủy</Text>
+                      </TouchableOpacity>
+                    )}
+                  </View>
+
+                  <Heading size='sm' style={{ color: '#6fc4f2' }}>
+                    {formattedPrice}
+                  </Heading>
+                  <Heading size='sm' style={selectedTab === 'Cancel' ? styles.dateBooking_cancel : styles.dateBooking}>
+                    Lịch hẹn: {new Date(item.dateBooking).toISOString().replace(/T/, ', ').replace(/\..+/, '')}
+                  </Heading>
                 </View>
-                <Heading size='sm' style={{ color: '#6fc4f2' }}>{item.totalPrice}đ</Heading>
-                <Heading size='sm' style={selectedTab === 'Cancel' ? styles.dateBooking_cancel : styles.dateBooking}>Lịch hẹn: {new Date(item.dateBooking).toISOString().replace(/T/, ', ').replace(/\..+/, '')}</Heading>
-              </View>
-            )))}
+              );
+            }))}
         </ScrollView>
       </View>
     </View>

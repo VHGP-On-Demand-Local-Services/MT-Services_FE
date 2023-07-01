@@ -51,7 +51,10 @@ const CreateService = () => {
                         size="md"
                         placeholder="Nhập tên dịch vụ..."
                         value={name}
-                        onChangeText={text => setName(text)}
+                        onChangeText={text => {
+                            const capitalizedText = text.charAt(0).toUpperCase() + text.slice(1);
+                            setName(capitalizedText);
+                        }}
                     />
                 </View>
                 <View style={styles.inputGroup}>
