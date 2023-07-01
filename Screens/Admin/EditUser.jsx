@@ -5,6 +5,7 @@ import { Box, Text, Heading, VStack, FormControl, Input, Link, Button, HStack, C
 import { useDispatch, useSelector } from 'react-redux'
 import { getAllUsers, getUserById, updateUserById } from '../../Redux/features/UserSlice';
 import { useNavigation } from '@react-navigation/native';
+import { setError } from '../../Redux/features/AuthSlice';
 
 
 
@@ -40,7 +41,7 @@ const EditUser = ({ route }) => {
                 alert('Edit Thành công !!');
                 navigation.navigate('QL.Tài khoản');
                 dispatch(getAllUsers({ page: 1, limit: 8 }));
-                dispatch(userSlice.actions.error(null));
+                dispatch(setError(null))
             }).catch(e => {
                 console.log(e);
             });

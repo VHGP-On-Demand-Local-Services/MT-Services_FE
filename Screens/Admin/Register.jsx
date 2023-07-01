@@ -3,7 +3,7 @@ import { Box, Heading, VStack, FormControl, Input, Button, Center, Pressable, Ic
 import { MaterialIcons } from "@expo/vector-icons";
 import { useNavigation } from '@react-navigation/native'
 import { useDispatch, useSelector } from 'react-redux';
-import { registerUser } from '../../Redux/features/AuthSlice';
+import { registerUser, setError } from '../../Redux/features/AuthSlice';
 import { getAllUsers } from '../../Redux/features/UserSlice';
 
 const Register = () => {
@@ -28,7 +28,7 @@ const Register = () => {
                 alert('Đăng kí thành công !!')
                 dispatch(getAllUsers({ page: 1, limit: 8 }))
                 navigation.navigate('QL.Tài khoản')
-                dispatch(authSlice.actions.error(null));
+                dispatch(setError(null))
             }).catch(e => {
                 console.log('Error: ', e);
             })

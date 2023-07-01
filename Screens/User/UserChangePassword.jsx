@@ -1,11 +1,11 @@
 import React, { useState } from 'react';
-import { View, StyleSheet} from 'react-native';
+import { View, StyleSheet } from 'react-native';
 import { VStack, Input, Button, FormControl, Alert, Pressable, Icon, Text } from 'native-base';
 import { useDispatch, useSelector } from 'react-redux';
 import { changePassword } from '../../Redux/features/UserSlice';
 import { MaterialIcons } from "@expo/vector-icons";
 import { useRoute } from '@react-navigation/native';
-import { logoutUser } from '../../Redux/features/AuthSlice';
+import { logoutUser, setError } from '../../Redux/features/AuthSlice';
 
 const UserChangePassword = () => {
     const [oldPassword, setOldPassword] = useState('');
@@ -24,23 +24,23 @@ const UserChangePassword = () => {
 
         // Dispatch the changePassword action
         dispatch(changePassword({ id: user._id, passwordData: { oldPassword, newPassword, confirmPassword } }))
-        .unwrap()
-        .then((response) => {
-            alert('Cập nhật mật khẩu thành công, vui lòng đăng nhập lại!');
-            setOldPassword('');
-            setNewPassword('');
-            setConfirmPassword('');
-            dispatch(logoutUser());
-            dispatch(userSlice.actions.error(null));
-        })
-        .catch((error) => {
-            console.log('Error', error);
-        });
+            .unwrap()
+            .then((response) => {
+                alert('Cập nhật mật khẩu thành công, vui lòng đăng nhập lại!');
+                setOldPassword('');
+                setNewPassword('');
+                setConfirmPassword('');
+                dispatch(logoutUser());
+                dispatch(setError(null))
+            })
+            .catch((error) => {
+                console.log('Error', error);
+            });
     };
 
     return (
 
-        <View  style={styles.container}>
+        <View style={styles.container}>
             <Text style={styles.heading}>Đổi Mật Khẩu</Text>
             {error && <Text style={styles.error}>{error}</Text>}
             <FormControl isRequired style={styles.inputGroup}>
@@ -105,7 +105,7 @@ const UserChangePassword = () => {
                     onChangeText={(text) => setConfirmPassword(text)}
                 />
             </FormControl>
-            <Button onPress={handleSubmit}  mt={4} style={styles.button}>Xác nhận</Button>
+            <Button onPress={handleSubmit} mt={4} style={styles.button}>Xác nhận</Button>
         </View>
     );
 };
@@ -121,7 +121,7 @@ const styles = StyleSheet.create({
         fontWeight: 'bold',
         marginBottom: 16,
         textAlign: 'center',
-        paddingTop:5
+        paddingTop: 5
     },
     formControl: {
         marginBottom: 16,
