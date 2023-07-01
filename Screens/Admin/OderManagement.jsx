@@ -4,6 +4,7 @@ import { Heading, Select, CheckIcon } from 'native-base'
 import { useDispatch, useSelector } from 'react-redux'
 import { getAllBooking, updateBookingStatus } from '../../Redux/features/BookingSlice'
 import { useFocusEffect } from '@react-navigation/native'
+import { Feather } from 'react-native-vector-icons'
 
 const status = [
   { id: 1, name: 'Waiting' },
@@ -28,7 +29,6 @@ const OderManagement = () => {
   )
 
   const filteredBookings = booking && Array.isArray(booking) ? booking.filter(item => item.status === selectedTab) : [];
-
 
   const renderItem = ({ item }) => {
     const handleStatusChange = async (itemValue) => {
@@ -118,15 +118,23 @@ const OderManagement = () => {
           </Text>
         </TouchableOpacity>
       </View>
-
-      <FlatList
-        data={filteredBookings}
-        renderItem={renderItem}
-        keyExtractor={item => item._id}
-        contentContainerStyle={{ flexGrow: 1 }}
-        showsVerticalScrollIndicator={false}
-        showsHorizontalScrollIndicator={false}
-      />
+      {
+        filteredBookings.length > 0 ? (
+          <FlatList
+            data={filteredBookings}
+            renderItem={renderItem}
+            keyExtractor={item => item._id}
+            contentContainerStyle={{ flexGrow: 1 }}
+            showsVerticalScrollIndicator={false}
+            showsHorizontalScrollIndicator={false}
+          />
+        ) : (
+          <View style={styles.noOrders}>
+            <Feather name='shopping-bag' size={60} color="#888" />
+            <Text style={styles.noOrdersText} >Không có đơn hàng chờ duyệt.</Text>
+          </View>
+        )
+      }
     </View>
   );
 }
@@ -224,6 +232,15 @@ const styles = StyleSheet.create({
   updateButtonText: {
     color: '#0aad99',
     fontWeight: 'bold'
+  },
+  noOrders: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center'
+  },
+  noOrdersText: {
+    fontSize: 16,
+    paddingTop: 10
   }
 });
 

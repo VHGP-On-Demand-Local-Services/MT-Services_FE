@@ -4,6 +4,7 @@ import { Heading } from 'native-base'
 import { useDispatch, useSelector } from 'react-redux'
 import { deleteBookingById, getBookingByUserId } from '../../Redux/features/BookingSlice'
 import { useFocusEffect } from '@react-navigation/native'
+import Icon from 'react-native-vector-icons/MaterialIcons';
 
 const Order = () => {
   const [selectedTab, setSelectedTab] = useState('Waiting');
@@ -88,27 +89,35 @@ const Order = () => {
 
       <View style={{ flex: 1 }}>
         <ScrollView>
-          {filteredBookings && filteredBookings.map(item => (
-            <View key={item._id} style={
-              selectedTab && selectedTab === 'Waiting'
-                ?
-                styles.container_waiting
-                : selectedTab && selectedTab === 'Complete'
-                  ? styles.container_complete
-                  : styles.container_cancel
-            } >
-              <View style={styles.header_order} key={item.booking_item._id}>
-                <Heading size='lg' style={selectedTab === 'Cancel' ? styles.name_service_cancel : styles.name_service}>{item.booking_item[0].service.name}</Heading>
-                {selectedTab === 'Complete' || selectedTab === 'Cancel' ? '' : (
-                  <TouchableOpacity onPress={() => handleDeleteBooking(item)}>
-                    <Text style={{ alignSelf: 'flex-end', color: 'red' }} >Hủy</Text>
-                  </TouchableOpacity>
-                )}
+          {filteredBookings.length === 0 ?
+            (
+              <View style={styles.noOrdersContainer}>
+                <Icon name="remove-shopping-cart" size={60} color="#888" />
+                <Text style={styles.noOrdersText}>Không có đơn hàng</Text>
               </View>
-              <Heading size='sm' style={{ color: '#6fc4f2' }}>{item.totalPrice}đ</Heading>
-              <Heading size='sm' style={selectedTab === 'Cancel' ? styles.dateBooking_cancel : styles.dateBooking}>Lịch hẹn: {new Date(item.dateBooking).toISOString().replace(/T/, ', ').replace(/\..+/, '')}</Heading>
-            </View>
-          ))}
+            )
+            :
+            (filteredBookings.map(item => (
+              <View key={item._id} style={
+                selectedTab && selectedTab === 'Waiting'
+                  ?
+                  styles.container_waiting
+                  : selectedTab && selectedTab === 'Complete'
+                    ? styles.container_complete
+                    : styles.container_cancel
+              } >
+                <View style={styles.header_order} key={item.booking_item._id}>
+                  <Heading size='lg' style={selectedTab === 'Cancel' ? styles.name_service_cancel : styles.name_service}>{item.booking_item[0].service.name}</Heading>
+                  {selectedTab === 'Complete' || selectedTab === 'Cancel' ? '' : (
+                    <TouchableOpacity onPress={() => handleDeleteBooking(item)}>
+                      <Text style={{ alignSelf: 'flex-end', color: 'red' }} >Hủy</Text>
+                    </TouchableOpacity>
+                  )}
+                </View>
+                <Heading size='sm' style={{ color: '#6fc4f2' }}>{item.totalPrice}đ</Heading>
+                <Heading size='sm' style={selectedTab === 'Cancel' ? styles.dateBooking_cancel : styles.dateBooking}>Lịch hẹn: {new Date(item.dateBooking).toISOString().replace(/T/, ', ').replace(/\..+/, '')}</Heading>
+              </View>
+            )))}
         </ScrollView>
       </View>
     </View>
@@ -185,6 +194,17 @@ const styles = StyleSheet.create({
   },
   activeButtonText: {
     color: 'white',
+  },
+  noOrdersContainer: {
+    flex: 1,
+    paddingTop: 170,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  noOrdersText: {
+    fontSize: 16,
+    textAlign: 'center',
+    marginTop: 20,
   },
 })
 
