@@ -89,7 +89,7 @@ const AccountManagement = () => {
 
     return (
         <View style={{ flex: 1, paddingTop: 50 }}>
-            <Heading style={{ textAlign: 'center', paddingBottom: 20 }}>Danh sách Người Dùng</Heading>
+            <Heading style={{ textAlign: 'center', paddingBottom: 20 }}>Danh Sách Người Dùng</Heading>
             {loading ? (
                 <ActivityIndicator size='large' color='#000' />
             ) : users && users.length > 0 ? (

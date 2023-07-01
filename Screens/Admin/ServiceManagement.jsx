@@ -147,7 +147,7 @@ const ServiceManagement = () => {
           <Text style={styles.modalTitle}>Chỉnh Sửa hay Xóa?</Text>
 
           <TouchableOpacity style={styles.modalButtonEdit} onPress={handleUpdateService}>
-            <Text style={styles.modalButtonText}>Chỉnh sửa</Text>
+            <Text style={styles.modalButtonText}>Chỉnh Sửa</Text>
           </TouchableOpacity>
 
           <TouchableOpacity style={styles.modalButton} onPress={handleDeleteService}>
