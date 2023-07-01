@@ -14,7 +14,7 @@ const Booking = ({ route }) => {
   const [quantity, setQuantity] = useState('1')
   const [detailService, setDetailService] = useState('')
   const [date, setDate] = useState(new Date());
-  const [price, setPrice] = useState(service.expected_price)
+  const [price, setPrice] = useState(Number(service.expected_price))
 
   const [modeDate, setMode] = useState('datetime');
 
@@ -90,7 +90,7 @@ const Booking = ({ route }) => {
       }}>
         <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
           <Heading style={{ alignSelf: 'flex-start' }} size='md'> Tổng cộng: </Heading>
-          <Heading style={{ alignSelf: 'flex-end' }} size='md'>{price} ₫</Heading>
+          <Heading style={{ alignSelf: 'flex-end' }} size='md'>{price.toLocaleString()} ₫</Heading>
         </View>
         <Button style={{ backgroundColor: '#6fc4f2', borderRadius: 15 }} mt={4} pt={4} pb={4} size='lg' onPress={handleBooking} >
           <Text fontSize={15} bold>Đặt lịch</Text>

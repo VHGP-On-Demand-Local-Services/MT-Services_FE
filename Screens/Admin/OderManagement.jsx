@@ -6,6 +6,7 @@ import { getAllBooking, updateBookingStatus } from '../../Redux/features/Booking
 import { useFocusEffect } from '@react-navigation/native'
 import { Feather } from 'react-native-vector-icons'
 
+
 const status = [
   { id: 1, name: 'Waiting' },
   { id: 2, name: 'Complete' },
@@ -17,6 +18,10 @@ const OderManagement = () => {
   const dispatch = useDispatch()
 
   const { booking, error, loading } = useSelector(state => state.booking)
+
+  const formatPrice = (price) => {
+    return price.toLocaleString('vi-VN', { style: 'currency', currency: 'VND' });
+  };
 
   const handleTabPress = (tab) => {
     setSelectedTab(tab);
@@ -53,7 +58,7 @@ const OderManagement = () => {
           </Heading>
         </View>
         <Heading size='sm' style={{ color: '#6fc4f2' }}>
-          {item.totalPrice}đ
+          {formatPrice(item.totalPrice)}
         </Heading>
         <Heading size='sm' style={selectedTab === 'Cancel' ? styles.dateBooking_cancel : styles.dateBooking}>
           Lịch hẹn: {new Date(item.dateBooking).toISOString().replace(/T/, ', ').replace(/\..+/, '')}
