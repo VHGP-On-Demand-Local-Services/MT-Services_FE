@@ -4,7 +4,7 @@ import { View } from 'react-native';
 import { Box, Text, Heading, VStack, FormControl, Input, Link, Button, HStack, Center, ScrollView, Pressable, Icon } from "native-base";
 import { MaterialIcons } from "@expo/vector-icons";
 import { useNavigation } from '@react-navigation/native'
-import { loginUser } from '../Redux/features/AuthSlice'
+import { loginUser, setError } from '../Redux/features/AuthSlice'
 
 const Login = () => {
     const [showPassword, setShowPassword] = useState(false)
@@ -18,7 +18,7 @@ const Login = () => {
     const handleLogin = () => {
         const userData = { phone, password }
         dispatch(loginUser(userData))
-
+        dispatch(setError(null))
     }
 
     // const token = user?.token
