@@ -3,9 +3,8 @@ import { View } from 'react-native'
 import { Box, Text, Heading, VStack, FormControl, Input, Link, Button, HStack, Center, ScrollView, Pressable, Icon } from "native-base";
 
 import { useDispatch, useSelector } from 'react-redux'
-import { getAllUsers, getUserById, updateUserById } from '../../Redux/features/UserSlice';
+import { getAllUsers, getUserById, setError, updateUserById } from '../../Redux/features/UserSlice';
 import { useNavigation } from '@react-navigation/native';
-import { setError } from '../../Redux/features/AuthSlice';
 
 
 
