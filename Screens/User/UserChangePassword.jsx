@@ -2,10 +2,10 @@ import React, { useState } from 'react';
 import { View, StyleSheet } from 'react-native';
 import { VStack, Input, Button, FormControl, Alert, Pressable, Icon, Text } from 'native-base';
 import { useDispatch, useSelector } from 'react-redux';
-import { changePassword } from '../../Redux/features/UserSlice';
+import { changePassword, setError } from '../../Redux/features/UserSlice';
 import { MaterialIcons } from "@expo/vector-icons";
 import { useRoute } from '@react-navigation/native';
-import { logoutUser, setError } from '../../Redux/features/AuthSlice';
+import { logoutUser } from '../../Redux/features/AuthSlice';
 
 const UserChangePassword = () => {
     const [oldPassword, setOldPassword] = useState('');
