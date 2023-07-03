@@ -69,20 +69,18 @@ const Home = () => {
                       <TouchableOpacity
                         style={{
                           width: '100%',
-                          alignContent: 'center',
-                          alignItems: 'center',
-                          marginTop: 5,
-                          paddingTop:5,
-                          backgroundColor: '#003d99',
-                          borderRadius:5
+                          alignContent: 'flex-start',
+                          alignItems: 'flex-start',
+                          backgroundColor: 'rgba(235, 245, 242, 0.9)',
+                          borderRadius: 5
                         }}
                         key={service._id}
                         onPress={() => navigation.navigate('Đặt lịch', { service: service })}
                       >
-                        <View style={{ borderRadius: 50, backgroundColor: '#e1e9f7', padding: 10 }}>
-                          <MaterialIcons name={service.icon_name} color='#6fc4f2' size={46} />
+                        <View style={{ flexDirection: 'row', paddingTop: 20 }}>
+                          <MaterialIcons name={service.icon_name} color='#6fc4f2' size={50} />
+                          <Text style={{ fontWeight: '700', fontSize: 18, paddingTop: 10, marginBottom: 8 }}>{service.name}</Text>
                         </View>
-                        <Text style={{ fontWeight: '600', fontSize: 15, paddingTop: 6, marginBottom: 10 }}>{service.name}</Text>
                       </TouchableOpacity>
                     ))}
                   </View>
@@ -92,7 +90,16 @@ const Home = () => {
 
               <>
                 {showResults && (
-                  <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', backgroundColor: "#1a75ff",position: 'absolute', zIndex: 2, top: 55,width:"100%", height:50 }}>
+                  <View style={{
+                    flex: 1,
+                    justifyContent: 'center',
+                    alignItems: 'flex-start',
+                    backgroundColor: 'rgba(235, 245, 242, 0.9)',
+                    position: 'absolute',
+                    zIndex: 2, top: 55,
+                    width: "100%",
+                    height: 50
+                  }}>
                     <Text style={{ color: "red", fontSize: 15 }}>Không có kết quả phù hợp.</Text>
                   </View>
                 )}
@@ -110,14 +117,14 @@ const Home = () => {
         </HStack>
 
 
-        <Banner style={{zIndex:1}}/>
+        <Banner style={{ zIndex: 1 }} />
 
-        <View style={{ padding: 20, zIndex:1 }}>
+        <View style={{ padding: 20, zIndex: 1 }}>
           <Heading>Dịch vụ</Heading>
           <ServiceList />
           <Heading>Ưu đãi</Heading>
         </View>
-        <SaleBanner style={{zIndex:1}}/>
+        <SaleBanner style={{ zIndex: 1 }} />
       </ScrollView>
     </SafeAreaView >
 
