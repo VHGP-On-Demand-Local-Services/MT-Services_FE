@@ -6,13 +6,13 @@ const BASE_URL = "https://home-service-vinhome.onrender.com";
 
 export const getAllService = createAsyncThunk(
     "services/getAllServices",
-    async({ page, limit }, { rejectWithValue }) => {
+    async ({ page, limit }, { rejectWithValue }) => {
         try {
             const token = await AsyncStorage.getItem("token");
             const response = await axios.get(
                 `${BASE_URL}/api/v1/services?page=${page}&limit=${limit}`, {
-                    headers: { token: `Bearer ${token}` }
-                }
+                headers: { token: `Bearer ${token}` }
+            }
             );
             return response.data;
         } catch (err) {
@@ -24,13 +24,13 @@ export const getAllService = createAsyncThunk(
 
 export const getServiceById = createAsyncThunk(
     "services/getServiceById",
-    async({ id }, { rejectWithValue }) => {
+    async ({ id }, { rejectWithValue }) => {
         try {
             const token = await AsyncStorage.getItem("token");
             const response = await axios.get(
                 `${BASE_URL}/api/v1/services/${id}`, {
-                    headers: { token: `Bearer ${token}` }
-                }
+                headers: { token: `Bearer ${token}` }
+            }
             );
             return response.data;
         } catch (err) {
@@ -42,14 +42,14 @@ export const getServiceById = createAsyncThunk(
 
 export const createService = createAsyncThunk(
     "services/create-service",
-    async(serviceData, { rejectWithValue }) => {
+    async (serviceData, { rejectWithValue }) => {
         try {
             const token = await AsyncStorage.getItem("token");
             const response = await axios.post(
                 `${BASE_URL}/api/v1/services/create-service`,
                 serviceData, {
-                    headers: { token: `Bearer ${token}` }
-                }
+                headers: { token: `Bearer ${token}` }
+            }
             );
             return response.data;
         } catch (err) {
@@ -61,14 +61,14 @@ export const createService = createAsyncThunk(
 
 export const updateService = createAsyncThunk(
     "services/updateService",
-    async({ id, serviceData }, { rejectWithValue }) => {
+    async ({ id, serviceData }, { rejectWithValue }) => {
         try {
             const token = await AsyncStorage.getItem("token");
             const response = await axios.put(
                 `${BASE_URL}/api/v1/services/update/${id}`,
                 serviceData, {
-                    headers: { token: `Bearer ${token}` }
-                }
+                headers: { token: `Bearer ${token}` }
+            }
             );
             return response.data;
         } catch (err) {
@@ -80,11 +80,29 @@ export const updateService = createAsyncThunk(
 
 export const deleteService = createAsyncThunk(
     "services/deleteService",
-    async({ id }, { rejectWithValue }) => {
+    async ({ id }, { rejectWithValue }) => {
         try {
             const token = await AsyncStorage.getItem("token");
             const response = await axios.delete(
                 `${BASE_URL}/api/v1/services/delete/${id}`, {
+                headers: { token: `Bearer ${token}` }
+            }
+            );
+            return response.data;
+        } catch (err) {
+            console.log(err.response.data.message);
+            return rejectWithValue(err.response.data.message);
+        }
+    }
+);
+
+export const searchService = createAsyncThunk(
+    "services/searchService",
+    async (keyword, { rejectWithValue }) => {
+        try {
+            const token = await AsyncStorage.getItem("token");
+            const response = await axios.get(
+                `${BASE_URL}/api/v1/services/search?keyword=${keyword}`,{
                     headers: { token: `Bearer ${token}` }
                 }
             );
@@ -95,8 +113,10 @@ export const deleteService = createAsyncThunk(
         }
     }
 );
+
 const initialState = {
     services: {},
+    searchServices: {},
     loading: false,
     error: null,
 };
@@ -165,6 +185,17 @@ const serviceSlice = createSlice({
                 state.loading = false;
             })
             .addCase(deleteService.rejected, (state, action) => {
+                state.error = action.payload;
+                state.loading = false;
+            })
+            .addCase(searchService.pending, (state) => {
+                state.loading = true;
+            })
+            .addCase(searchService.fulfilled, (state, action) => {
+                state.searchServices = action.payload;
+                state.loading = false;
+            })
+            .addCase(searchService.rejected, (state, action) => {
                 state.error = action.payload;
                 state.loading = false;
             });
