@@ -16,14 +16,30 @@ const Home = () => {
   const navigation = useNavigation()
   const { services, loading } = useSelector(state => state.service.searchServices);
   const [showResults, setShowResults] = useState(false);
+  const [keyword, setKeyword] = useState('');
 
   const handleSearch = (keyword) => {
+    setKeyword(keyword);
     if (keyword != '') {
       dispatch(searchService(keyword));
       setShowResults(true);
     } else {
       setShowResults(false);
     }
+  };
+
+  useEffect(() => {
+    const unsubscribe = navigation.addListener('blur', () => {
+      setKeyword('');
+      setShowResults(false);
+    });
+
+    return unsubscribe;
+  }, [navigation]);
+
+  const handleClear = () => {
+    setKeyword('');
+    setShowResults(false);
   };
 
   return (
@@ -35,7 +51,15 @@ const Home = () => {
               placeholder="Tìm kiếm" width="100%"
               borderRadius={4} py="3" px="1" fontSize="15"
               InputLeftElement={<Icon m="2" ml="3" size="6" color="gray.400" as={<MaterialIcons name="search" />} />}
+              InputRightElement={
+                keyword !== '' && (
+                  <Pressable onPress={handleClear}>
+                    <Ionicons name='close-outline' size={30} />
+                  </Pressable>
+                )
+              }
               onChangeText={handleSearch}
+              value={keyword}
             />
             {loading ? (<ActivityIndicator size="large" color="#000" />) : services && services.length > 0 ? (
               <>
@@ -49,11 +73,11 @@ const Home = () => {
                           alignItems: 'center',
                           marginTop: 5,
                           paddingTop:5,
-                          backgroundColor: '#b3ffff',
+                          backgroundColor: '#003d99',
                           borderRadius:5
                         }}
                         key={service._id}
-                        onPress={() => { navigation.navigate('Đặt lịch', { service: service }) }}
+                        onPress={() => navigation.navigate('Đặt lịch', { service: service })}
                       >
                         <View style={{ borderRadius: 50, backgroundColor: '#e1e9f7', padding: 10 }}>
                           <MaterialIcons name={service.icon_name} color='#6fc4f2' size={46} />
@@ -68,7 +92,7 @@ const Home = () => {
 
               <>
                 {showResults && (
-                  <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', backgroundColor: "#b3ffff",position: 'absolute', zIndex: 2, top: 55,width:"100%", height:50 }}>
+                  <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', backgroundColor: "#1a75ff",position: 'absolute', zIndex: 2, top: 55,width:"100%", height:50 }}>
                     <Text style={{ color: "red", fontSize: 15 }}>Không có kết quả phù hợp.</Text>
                   </View>
                 )}
