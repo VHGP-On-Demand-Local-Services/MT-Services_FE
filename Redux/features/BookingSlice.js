@@ -6,7 +6,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 const BASE_URL = "https://home-service-vinhome.onrender.com";
 
 const initialState = {
-  booking: {},
+  booking: null,
   loading: false,
   error: null
 };
@@ -108,7 +108,11 @@ export const deleteBookingById = createAsyncThunk(
 const bookingSlice = createSlice({
   name: "booking",
   initialState,
-  reducers: {},
+  reducers: {
+    deleteBookingData: (state) => {
+      state.booking = [];
+    }
+  },
   extraReducers: (builder) => {
     builder
       .addCase(createBooking.pending, (state) => {
@@ -138,7 +142,7 @@ const bookingSlice = createSlice({
         state.loading = true;
       })
       .addCase(getBookingByUserId.fulfilled, (state, action) => {
-        state.booking = action.payload;
+        state.booking = action.payload || {};
         state.loading = false;
       })
       .addCase(getBookingByUserId.rejected, (state, action) => {
@@ -169,5 +173,7 @@ const bookingSlice = createSlice({
       });
   }
 });
+
+export const { deleteBookingData } = bookingSlice.actions;
 
 export default bookingSlice.reducer;
