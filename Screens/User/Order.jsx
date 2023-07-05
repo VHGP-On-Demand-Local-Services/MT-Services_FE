@@ -2,13 +2,12 @@ import React, { useState, useEffect, useCallback } from 'react'
 import { View, Text, StyleSheet, ScrollView, TouchableOpacity, Alert } from 'react-native'
 import { Heading } from 'native-base'
 import { useDispatch, useSelector } from 'react-redux'
-import { deleteBookingById, getBookingByUserId } from '../../Redux/features/BookingSlice'
+import { deleteBookingById, getBookingByUserId, deleteBookingData } from '../../Redux/features/BookingSlice'
 import { useFocusEffect } from '@react-navigation/native'
 import Icon from 'react-native-vector-icons/MaterialIcons';
 
 const Order = () => {
   const [selectedTab, setSelectedTab] = useState('Waiting');
-  // const [seletedBookingId, setSelectedBookingId] = useState('')
 
   const dispatch = useDispatch()
 
@@ -21,6 +20,7 @@ const Order = () => {
 
   useFocusEffect(
     useCallback(() => {
+      dispatch(deleteBookingData())
       dispatch(getBookingByUserId({ userId: user._id }))
     }, [dispatch, user])
   )
