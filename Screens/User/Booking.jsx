@@ -1,10 +1,11 @@
 import React, { useState, useEffect, useCallback } from 'react'
-import { View, } from 'react-native'
-import { Heading, Input, Button, Text } from 'native-base'
+import { TouchableOpacity, View, } from 'react-native'
+import { Heading, Input, Button, Text, Icon } from 'native-base'
 import { useDispatch, useSelector } from 'react-redux'
 import DateTimePicker from '@react-native-community/datetimepicker';
 import { createBooking } from '../../Redux/features/BookingSlice';
 import { useNavigation } from '@react-navigation/native';
+import { Feather } from '@expo/vector-icons';
 
 const Booking = ({ route }) => {
   const { service } = route.params
@@ -27,9 +28,11 @@ const Booking = ({ route }) => {
     dispatch(createBooking(bookingData)).unwrap().then((response) => {
       alert('Đặt dịch vụ thành công!');
       navigation.navigate('Trang chủ');
-    }).catch((error) => {
-      console.log('Error', error);
-    });
+    })
+      .catch((error) => {
+        // console.log('Error', error);
+        alert(error + ' Bạn phải đặt dịch vụ cách nhau 30p');
+      });
   }
 
   const onChange = (event, selectedDate) => {
@@ -69,8 +72,14 @@ const Booking = ({ route }) => {
         <Input size='lg' mt={4} value={quantity} isReadOnly={true} />
         <Heading size='sm' pt={4}>Tình trạng sản phẩm: </Heading>
         <Input size='lg' mt={4} placeholder='Mô tả về sản phẩm' value={detailService} onChangeText={(text) => setDetailService(text)} />
-        <Heading size='sm' pt={4}>Thời gian: </Heading>
-
+        <View style={{ flexDirection: 'row' }}>
+          <Heading size='sm' pt={4}>Thời gian: </Heading>
+          <TouchableOpacity style={{ paddingTop: 16 }} onPress={() => {
+            alert('Thời gian được chọn tính từ ngày hôm nay + 1 ngày, và mỗi dịch vụ được đặt cách nhau 30p.')
+          }}>
+            <Feather name='info' size={19} />
+          </TouchableOpacity>
+        </View>
         <View style={{ flexDirection: 'row', paddingTop: 12 }}>
           <DateTimePicker
             testID="dateTimePicker"
